@@ -1588,6 +1588,70 @@ ul {
   transform: translate(-50%, 12px);
 }
 
+/* ---------- Devtools shield ---------- */
+
+html.devtools-open main,
+html.devtools-open .site-header,
+html.devtools-open .site-footer {
+  filter: blur(16px);
+  pointer-events: none;
+}
+
+.shield {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 16px;
+  padding: 24px;
+  text-align: center;
+  background: rgba(var(--bg-rgb), 0.94);
+}
+
+.shield__mark {
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--fg);
+  border-radius: 50%;
+  position: relative;
+}
+
+.shield__mark::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 7px;
+  width: 2px;
+  height: 12px;
+  background: var(--fg);
+  box-shadow: 0 16px 0 var(--fg);
+}
+
+.shield strong {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+.shield > span:last-child {
+  max-width: 40ch;
+  color: var(--mute);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.shield-enter-active,
+.shield-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.shield-enter-from,
+.shield-leave-to {
+  opacity: 0;
+}
+
 /* ---------- Reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
