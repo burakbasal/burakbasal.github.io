@@ -33,6 +33,13 @@ function close(restoreFocus = false) {
   if (restoreFocus) toggle.value?.focus()
 }
 
+function goTop(event: MouseEvent) {
+  event.preventDefault()
+  close()
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  window.scrollTo({ top: 0, behavior: reduced ? 'instant' : 'smooth' })
+}
+
 onKeyStroke('Escape', () => {
   if (open.value) close(true)
 })
@@ -41,7 +48,7 @@ onKeyStroke('Escape', () => {
 <template>
   <header class="site-header" :class="{ 'is-scrolled': scrolled, 'menu-is-open': open }">
     <div class="shell site-header__inner">
-      <a class="brand" href="#top" :aria-label="t('brand.label')" @click="close()">
+      <a class="brand" href="/" :aria-label="t('brand.label')" @click="goTop">
         <span class="brand__mark">BB<span>.</span></span>
         <span class="brand__meta">{{ t('brand.meta') }}</span>
       </a>

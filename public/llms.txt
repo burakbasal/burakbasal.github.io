@@ -1,0 +1,20 @@
+# Burak Başal / Burak Basal
+
+> Developer. Software, interfaces, real-time systems and browser games.
+
+Official site: https://burakbasal.github.io/
+Repository: https://github.com/burakbasal/burakbasal.github.io
+
+## Selected work
+- Roamcroft — isometric real-time 3D farming and exploration; https://roamcroft.com/
+- satkolay — second-hand marketplace (currently maintenance mode); https://satkolay.com/
+- endless-wordle — unlimited Wordle-style game; https://burakbasal.github.io/endless-wordle/
+- wall-race — strategy game with local multiplayer; https://burakbasal.github.io/wall-race/
+- rezonans — interactive browser experience; https://burakbasal.github.io/rezonans/
+- Global Bilgi · CallSim — Turkish call-centre simulation; https://gbsim.pages.dev/
+
+## Notes
+- All six projects were designed and built solo.
+- Positioning: Developer. Turkish name: Burak Başal. English name: Burak Basal.
+- Contact and verified profiles are listed on the official site.
+- Private source repositories are not published; only their public demos are linked.

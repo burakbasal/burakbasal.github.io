@@ -2,27 +2,41 @@
 
 GitHub Pages özel response header desteklemez. `index.html` içindeki meta CSP çalışır ama
 `frame-ancestors`, `HSTS`, `X-Frame-Options`, `COOP/CORP` gibi başlıkların **meta karşılığı yoktur**.
- Bunları etkinleştirmek için Cloudflare ücretsiz katmanını sitenin önüne koyman gerekir.
+Bunları etkinleştirmek için Cloudflare ücretsiz katmanını sitenin önüne koyman gerekir.
 
-## Seçenek A — Cloudflare Worker (mevcut GitHub Pages adresi korunur)
+Bu klasördeki Worker yalnızca header eklemez: her HTML yanıtındaki statik nonce’u **istek başına
+üretilen rastgele nonce** ile değiştirir. Böylece CSP’deki nonce gerçek anlamda tek kullanımlık olur.
 
-1. Cloudflare’a `burakbasal.github.io` için bir zone ekle, Nameserver’ları Cloudflare’a çevir.
-2. Workers & Pages → **Create Worker** → `worker.js` içeriğini yapıştır → Deploy.
-3. Worker’ın **Routes** kısmına `burakbasal.github.io/*` ekle.
-4. Doğrula:
+## Kurulum
+
+1. Cloudflare’a `burakbasal.github.io` zone’unu ekle, nameserver’ları Cloudflare’a çevir.
+2. Repository **Settings → Secrets and variables → Actions** altına iki secret ekle:
+   - `CLOUDFLARE_API_TOKEN` (Zone: Edit yetkisi)
+   - `CLOUDFLARE_ACCOUNT_ID`
+3. **Actions → Deploy Cloudflare security Worker → Run workflow** ile Worker’ı yayınla.
+4. Worker_route’u ekle (bir kez):
+
+```bash
+cd cloudflare
+npx wrangler route add "burakbasal.github.io/*" burakbasal-security-headers
+```
+
+5. Doğrula:
 
 ```bash
 curl -sI https://burakbasal.github.io/ | grep -Ei 'content-security|strict-transport|x-frame|x-content|permissions|cross-origin'
+curl -s https://burakbasal.github.io/ | grep -o "nonce-[A-Za-z0-9_-]*" | sort -u
 ```
 
-## Seçenek B — Cloudflare Pages’e taşı
+İkinci komut **tek bir benzersiz nonce** göstermelidir: JSON-LD attribute’u ve meta CSP aynı değeri kullanır.
+`bb-portfolio-2026` görürsen statik fallback kalmış demektir. Komutu iki kez çalıştırınca nonce değişmelidir.
 
-`public/_headers` dosyası zaten Cloudflare Pages formatında hazır. Repoyu Cloudflare Pages’e
-bağladığında otomatik okunur. `build` komutu `npm run build`, output dizini `dist`.
+## Alternatif — Cloudflare Pages’e taşı
 
-## Notlar
+`public/_headers` dosyası Cloudflare Pages formatında hazır. Build: `npm run build`, output: `dist`.
+Bu yolda nonce hâlâ statiktir; dinamik nonce için Worker gerekir.
 
-- CSP içindeki nonce sabittir; sayfada kullanıcı girdisi/HTML enjeksiyonu olmadığı için pratik risk yoktur.
-  Daha sıkı olması istenirse her istekte Worker ile rastgele nonce üretip HTML’i yeniden yazmak gerekir.
-- Bu dosyalar repo’da durur; DNS/Cloudflare tarafında değişiklik yapmak hesabını gerektirir, bu yüzden
-  mevcut canlı sitede hâlâ meta CSP aktiftir.
+## Not
+
+GitHub Pages bu dosyaları okumaz; canlı `curl -I` çıktısında yalnızca GitHub’ın HSTS başlığı vardır.
+Meta CSP aktif yedektir. DNS değişikliği senin Cloudflare hesabını gerektirir; kod tarafı hazır.

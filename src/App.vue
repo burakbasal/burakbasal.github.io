@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
 import { t } from '@/data/i18n'
+import AtmosphereField from './components/AtmosphereField.vue'
 import ContentGuard from './components/ContentGuard.vue'
 import SiteHeader from './components/SiteHeader.vue'
 import HeroSection from './components/HeroSection.vue'
@@ -32,10 +33,7 @@ onUnmounted(() => observer?.disconnect())
 <template>
   <a class="skip-link" href="#main">{{ t('skip') }}</a>
 
-  <div class="atmosphere" aria-hidden="true">
-    <div class="atmosphere__grid"></div>
-    <div class="atmosphere__glow"></div>
-  </div>
+  <AtmosphereField />
 
   <SiteHeader :active="active" />
 

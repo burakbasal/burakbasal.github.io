@@ -60,7 +60,7 @@ const stats = [
 </script>
 
 <template>
-  <section id="top" ref="hero" class="hero" aria-labelledby="hero-title">
+  <section ref="hero" class="hero" aria-labelledby="hero-title">
     <div class="hero__spotlight" aria-hidden="true"></div>
 
     <div class="shell hero__inner">
