@@ -14,7 +14,7 @@ export default defineConfig({
       transformIndexHtml(html) {
         const policy = [
           "default-src 'self'",
-          "script-src 'self'",
+          "script-src 'self' 'nonce-bb-portfolio-2026'",
           "style-src 'self' 'unsafe-inline'",
           "img-src 'self' data: https:",
           "font-src 'self' data:",

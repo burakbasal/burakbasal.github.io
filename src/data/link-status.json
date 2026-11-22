@@ -1,0 +1,43 @@
+{
+  "checkedAt": "2026-11-22T22:41:51.573Z",
+  "total": 6,
+  "online": 6,
+  "results": [
+    {
+      "url": "https://roamcroft.com/",
+      "status": 200,
+      "ok": true,
+      "final": "https://roamcroft.com/"
+    },
+    {
+      "url": "https://satkolay.com/",
+      "status": 200,
+      "ok": true,
+      "final": "https://www.satkolay.com/maintenance"
+    },
+    {
+      "url": "https://burakbasal.github.io/endless-wordle/",
+      "status": 200,
+      "ok": true,
+      "final": "https://burakbasal.github.io/endless-wordle/"
+    },
+    {
+      "url": "https://burakbasal.github.io/wall-race/",
+      "status": 200,
+      "ok": true,
+      "final": "https://burakbasal.github.io/wall-race/"
+    },
+    {
+      "url": "https://burakbasal.github.io/rezonans/",
+      "status": 200,
+      "ok": true,
+      "final": "https://burakbasal.github.io/rezonans/"
+    },
+    {
+      "url": "https://gbsim.pages.dev/",
+      "status": 200,
+      "ok": true,
+      "final": "https://gbsim.pages.dev/"
+    }
+  ]
+}

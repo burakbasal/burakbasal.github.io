@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
 import { t } from '@/data/i18n'
+import { noteAttempt } from '@/utils/canary'
+import { silenceConsole } from '@/utils/silence'
 
 const visible = ref(false)
-const shield = ref(false)
 let timer = 0
 let watchdog = 0
+let blurTimer = 0
+let locked = false
+let stickyUntil = 0
+let keeper: MutationObserver | null = null
 
-function warn(event?: Event) {
+function warn(event?: Event, kind: 'copy' | 'shortcut' | 'devtools' = 'copy') {
   event?.preventDefault()
+  noteAttempt(kind)
   visible.value = true
   window.clearTimeout(timer)
   timer = window.setTimeout(() => {
@@ -21,10 +27,10 @@ function onKeydown(event: Event) {
   const mod = keyEvent.ctrlKey || keyEvent.metaKey
   const key = keyEvent.key.toLowerCase()
 
-  if (keyEvent.key === 'F12') return warn(event)
+  if (keyEvent.key === 'F12') return warn(event, 'shortcut')
   if (!mod && !keyEvent.altKey) return
-  if (['a', 'c', 'x', 'u', 's', 'p'].includes(key)) return warn(event)
-  if ((keyEvent.shiftKey || keyEvent.altKey) && ['i', 'j', 'c', 'k'].includes(key)) warn(event)
+  if (['a', 'c', 'x', 'u', 's', 'p'].includes(key)) return warn(event, 'shortcut')
+  if ((keyEvent.shiftKey || keyEvent.altKey) && ['i', 'j', 'c', 'k'].includes(key)) warn(event, 'shortcut')
 }
 
 function docked() {
@@ -33,24 +39,75 @@ function docked() {
   return window.innerWidth > 700 && (w > 160 || h > 160)
 }
 
-function trip() {
-  if (!shield.value) warn()
-  shield.value = true
+function lock(sticky = false) {
+  if (sticky) stickyUntil = Date.now() + 8000
+  if (locked) return
+  locked = true
+  noteAttempt('devtools')
+  silenceConsole()
   document.documentElement.classList.add('devtools-open')
+
+  const layer = document.createElement('div')
+  layer.id = 'bb-lock'
+  layer.className = 'shield'
+  layer.setAttribute('role', 'alertdialog')
+  layer.setAttribute('aria-modal', 'true')
+
+  const title = document.createElement('strong')
+  title.textContent = t('shield.title')
+  const body = document.createElement('span')
+  body.textContent = t('shield.body')
+  layer.append(title, body)
+  document.body.appendChild(layer)
+
+  // A plain-DOM layer cannot be removed from the console without coming back.
+  keeper = new MutationObserver(() => {
+    if (!document.body.contains(layer)) document.body.appendChild(layer)
+    if (!document.documentElement.classList.contains('devtools-open')) {
+      document.documentElement.classList.add('devtools-open')
+    }
+  })
+  keeper.observe(document.body, { childList: true })
+  keeper.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+  warn(undefined, 'devtools')
 }
 
-function watchdogTick() {
-  if (docked()) return trip()
+function unlock() {
+  if (!locked) return
+  locked = false
+  keeper?.disconnect()
+  keeper = null
+  document.getElementById('bb-lock')?.remove()
+  document.documentElement.classList.remove('devtools-open')
+}
 
-  // With devtools closed the statement is ignored; when a debugger is attached
-  // the pause makes this measurable, which catches undocked windows too.
+// An undocked DevTools window steals focus without changing viewport geometry.
+function onBlur() {
+  window.clearTimeout(blurTimer)
+  if (document.visibilityState !== 'visible') return
+  blurTimer = window.setTimeout(() => {
+    if (document.visibilityState === 'visible' && !document.hasFocus()) lock(true)
+  }, 1000)
+}
+
+function onFocus() {
+  window.clearTimeout(blurTimer)
+  check()
+}
+
+function check() {
+  if (Date.now() < stickyUntil) return
+  if (docked()) return lock()
+
+  // No-op when no debugger is attached; an attached debugger pauses here long
+  // enough to be measured, including an undocked console.
   const started = performance.now()
   // eslint-disable-next-line no-debugger
   debugger
-  if (performance.now() - started > 80) return trip()
+  if (performance.now() - started > 60) return lock()
 
-  shield.value = false
-  document.documentElement.classList.remove('devtools-open')
+  silenceConsole()
+  unlock()
 }
 
 type Handler = (event: Event) => void
@@ -63,19 +120,23 @@ const targets: Array<[EventTarget, string, Handler]> = [
   [document, 'dragstart', warn],
   [document, 'beforeprint', warn],
   [window, 'keydown', onKeydown],
-  [window, 'resize', watchdogTick],
+  [window, 'blur', onBlur],
+  [window, 'focus', onFocus],
+  [window, 'resize', check],
+  [document, 'visibilitychange', check],
 ]
 
 onMounted(() => {
   targets.forEach(([target, type, handler]) => target.addEventListener(type, handler, { capture: true, passive: false }))
-  watchdog = window.setInterval(watchdogTick, 1500)
+  watchdog = window.setInterval(check, 250)
 })
 
 onUnmounted(() => {
   targets.forEach(([target, type, handler]) => target.removeEventListener(type, handler, { capture: true }))
   window.clearInterval(watchdog)
   window.clearTimeout(timer)
-  document.documentElement.classList.remove('devtools-open')
+  window.clearTimeout(blurTimer)
+  unlock()
 })
 </script>
 
@@ -92,14 +153,6 @@ onUnmounted(() => {
           <path d="M6 6l12 12M18 6 6 18" />
         </svg>
       </button>
-    </div>
-  </Transition>
-
-  <Transition name="shield">
-    <div v-if="shield" class="shield" role="alertdialog" aria-modal="true" :aria-label="t('shield.title')">
-      <span class="shield__mark" aria-hidden="true"></span>
-      <strong>{{ t('shield.title') }}</strong>
-      <span>{{ t('shield.body') }}</span>
     </div>
   </Transition>
 </template>

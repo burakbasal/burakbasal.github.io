@@ -1492,6 +1492,14 @@ ul {
   gap: 22px;
 }
 
+.site-footer__status {
+  color: var(--faint);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .site-footer__links a,
 .to-top {
   transition: color 0.25s ease;
@@ -1640,16 +1648,6 @@ html.devtools-open .site-footer {
   color: var(--mute);
   font-size: 13px;
   line-height: 1.6;
-}
-
-.shield-enter-active,
-.shield-leave-active {
-  transition: opacity 0.25s ease;
-}
-
-.shield-enter-from,
-.shield-leave-to {
-  opacity: 0;
 }
 
 /* ---------- Reduced motion ---------- */
