@@ -27,23 +27,6 @@ export interface Project {
  */
 export const projects: Project[] = [
   {
-    index: '07',
-    title: 'Global Bilgi · CallSim',
-    kind: { en: 'Voice simulation · Live demo', tr: 'Ses simülasyonu · Canlı demo' },
-    description: {
-      en: 'A local Turkish call-centre simulation and candidate assessment platform with voice interaction and scenario-based evaluation.',
-      tr: 'Sesli etkileşim ve senaryo tabanlı değerlendirme içeren, yerel Türkçe çağrı merkezi simülasyonu ve aday değerlendirme platformu.',
-    },
-    tags: ['Python', 'TypeScript', 'PostgreSQL'],
-    image: '/images/callsim.svg',
-    links: [{ label: 'live', href: 'https://aksa.pages.dev/' }],
-    note: {
-      en: 'The published demo needs its local origin running; it may return 503 when offline.',
-      tr: 'Yayındaki demo yerel origin açık olmasını gerektirir; kapalıyken 503 dönebilir.',
-    },
-    privateRepo: true,
-  },
-  {
     index: '01',
     title: 'Roamcroft',
     kind: { en: 'Browser game · Public', tr: 'Tarayıcı oyunu · Açık kaynak' },
@@ -92,19 +75,6 @@ export const projects: Project[] = [
   },
   {
     index: '04',
-    title: 'neon-grid-smash',
-    kind: { en: 'Puzzle · Live demo', tr: 'Bulmaca · Canlı demo' },
-    description: {
-      en: 'A mobile-friendly neon grid puzzle built with HTML, CSS and JavaScript.',
-      tr: 'HTML, CSS ve JavaScript ile geliştirilmiş, mobil uyumlu neon ızgara bulmacası.',
-    },
-    tags: ['HTML', 'CSS', 'JavaScript', 'Mobile'],
-    image: '/images/neon-grid-smash.jpg',
-    links: [{ label: 'live', href: 'https://burakbasal.github.io/neon-grid-smash/' }],
-    privateRepo: true,
-  },
-  {
-    index: '05',
     title: 'wall-race',
     kind: { en: 'Strategy game · Live demo', tr: 'Strateji oyunu · Canlı demo' },
     description: {
@@ -117,7 +87,7 @@ export const projects: Project[] = [
     privateRepo: true,
   },
   {
-    index: '06',
+    index: '05',
     title: 'rezonans',
     kind: { en: 'Interactive · Live demo', tr: 'Etkileşimli · Canlı demo' },
     description: {
@@ -127,6 +97,23 @@ export const projects: Project[] = [
     tags: ['HTML', 'CSS', 'Interactive'],
     image: '/images/rezonans.jpg',
     links: [{ label: 'live', href: 'https://burakbasal.github.io/rezonans/' }],
+    privateRepo: true,
+  },
+  {
+    index: '06',
+    title: 'Global Bilgi · CallSim',
+    kind: { en: 'Voice simulation · Live demo', tr: 'Ses simülasyonu · Canlı demo' },
+    description: {
+      en: 'A local Turkish call-centre simulation and candidate assessment platform with voice interaction and scenario-based evaluation.',
+      tr: 'Sesli etkileşim ve senaryo tabanlı değerlendirme içeren, yerel Türkçe çağrı merkezi simülasyonu ve aday değerlendirme platformu.',
+    },
+    tags: ['Python', 'TypeScript', 'PostgreSQL'],
+    image: '/images/callsim.svg',
+    links: [{ label: 'live', href: 'https://aksa.pages.dev/' }],
+    note: {
+      en: 'The published demo needs its local origin running; it may return 503 when offline.',
+      tr: 'Yayındaki demo yerel origin açık olmasını gerektirir; kapalıyken 503 dönebilir.',
+    },
     privateRepo: true,
   },
 ]

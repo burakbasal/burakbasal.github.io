@@ -30,11 +30,11 @@ npm run preview
 
 ## Features added in the latest pass
 
-- **Seven featured projects, every one with a verified public URL.** Roamcroft and satkolay link to their own sites; endless-wordle, neon-grid-smash, wall-race and rezonans link to live GitHub Pages demos; Global Bilgi · CallSim links to its published Cloudflare Pages address (`aksa.pages.dev`). The CallSim demo depends on a local origin and can return 503 while it is offline — the card says so explicitly.
+- **Six featured projects, every one with a verified public URL.** Roamcroft and satkolay link to their own sites; endless-wordle, wall-race and rezonans link to live GitHub Pages demos; Global Bilgi · CallSim links to its published Cloudflare Pages address (`aksa.pages.dev`). The CallSim demo depends on a local origin and can return 503 while it is offline — the card says so explicitly.
 - **Real screenshots** captured from the live pages are used as card visuals (`public/images/*.jpg`). The one project whose live page was offline at capture time uses an original, clearly non-screenshot SVG tile.
 - **TR / EN language switch** in the header and mobile menu. Choice is persisted in `localStorage`; it also updates `<html lang>`, `document.title`, meta description and OG/Twitter titles. Turkish renders the surname as **Başal**, English as **Basal**.
 - **Black / white theme switch** using semantic CSS custom properties. Black is the default regardless of OS preference; the light theme is an explicit choice and is persisted.
-- **Larger name and denser layout**: the hero name scales up to 304px on wide screens, section padding was reduced, the work grid is three columns on desktop, and hero stats, credentials and certificates fill the page instead of leaving large gaps.
+- **Large but viewport-safe name and denser layout**: the hero name scales up to 248px on wide screens (reduced from 304px so it fits with OS chrome such as the Windows taskbar), section padding was reduced, the work grid is three columns on desktop, and hero stats, credentials and certificates fill the page instead of leaving large gaps.
 - **Credentials, without invented detail**: every project was designed and built solo (no team); education is Vocational & Technical Anatolian High School, Information Technologies / Software Development; certificates shown are CCNA: Introduction to Networks, CyberOps Associate and Ethical Hacker. The certificate PDFs themselves are not published because they contain a personal email address.
 
 ## Design and motion
@@ -62,7 +62,7 @@ The live `satkolay.com` demo currently redirects to a maintenance page; the card
 
 ## Performance and validation
 
-Local production build (latest pass): JS **40.8 kB gzip**, CSS **6.9 kB gzip**, plus 6 small JPEG screenshots and one SVG tile, all lazy-loaded.
+Local production build (latest pass): JS **40.8 kB gzip**, CSS **6.9 kB gzip**, plus 5 small JPEG screenshots and one SVG tile, all lazy-loaded.
 
 Manual checks passed at 320×568, 375×667, 390×844, 430×932, 768×1024, 1440×900 and 1920×1080: zero horizontal overflow, zero console errors, all seven card images loaded after scroll. Mobile menu open/close, Escape handling, focus return, skip link, language persistence, theme persistence, `document.title` updates and both font subsets were verified in headless Chrome. axe-core (WCAG 2.0/2.1 A+AA) reports zero violations in both dark/TR and light/EN modes.
 

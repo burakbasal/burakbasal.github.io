@@ -51,8 +51,8 @@ onScopeDispose(() => {
 })
 
 const stats = [
-  { value: '07', key: 'stats.projects' },
-  { value: '07', key: 'stats.live' },
+  { value: '06', key: 'stats.projects' },
+  { value: '06', key: 'stats.live' },
   { value: '04', key: 'stats.areas' },
   { value: '05', key: 'stats.profiles' },
 ] as const
