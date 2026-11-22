@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
+import { t } from '@/data/i18n'
 import SiteHeader from './components/SiteHeader.vue'
 import HeroSection from './components/HeroSection.vue'
 import WorkSection from './components/WorkSection.vue'
@@ -28,7 +29,7 @@ onUnmounted(() => observer?.disconnect())
 </script>
 
 <template>
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main">{{ t('skip') }}</a>
 
   <div class="atmosphere" aria-hidden="true">
     <div class="atmosphere__grid"></div>

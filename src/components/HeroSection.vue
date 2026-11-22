@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onScopeDispose, ref } from 'vue'
 import { useEventListener, useMediaQuery } from '@vueuse/core'
+import { t } from '@/data/i18n'
 import { useMagnetic } from '@/composables/useMagnetic'
 
 const finePointer = useMediaQuery('(hover: hover) and (pointer: fine)')
@@ -48,6 +49,13 @@ useEventListener(hero, 'pointerleave', () => {
 onScopeDispose(() => {
   if (frame) cancelAnimationFrame(frame)
 })
+
+const stats = [
+  { value: '07', key: 'stats.projects' },
+  { value: '07', key: 'stats.live' },
+  { value: '04', key: 'stats.areas' },
+  { value: '05', key: 'stats.profiles' },
+] as const
 </script>
 
 <template>
@@ -56,30 +64,37 @@ onScopeDispose(() => {
 
     <div class="shell hero__inner">
       <div class="hero__meta enter" style="--d: 60ms">
-        <span class="eyebrow"><i class="eyebrow__dot" aria-hidden="true"></i> Developer · Interfaces · Games</span>
-        <span class="hero__index" aria-hidden="true">01 / 05</span>
+        <span class="eyebrow"><i class="eyebrow__dot" aria-hidden="true"></i> {{ t('hero.eyebrow') }}</span>
+        <span class="hero__index" aria-hidden="true">{{ t('hero.index') }}</span>
       </div>
 
       <h1 id="hero-title" class="hero__title">
         <span class="hero__line enter" style="--d: 140ms">Burak</span>
-        <span class="hero__line hero__line--second enter" style="--d: 240ms"> Basal<span class="hero__period">.</span></span>
+        {{ ' ' }}
+        <span class="hero__line hero__line--second enter" style="--d: 240ms">{{ t('name.last') }}<span class="hero__period">.</span></span>
       </h1>
 
       <div class="hero__lower">
-        <p class="hero__role enter" style="--d: 360ms">Interfaces, interactions and games for the web.</p>
+        <p class="hero__role enter" style="--d: 360ms">{{ t('hero.role') }}</p>
         <p class="hero__desc enter" style="--d: 450ms">
-          I build software with attention to the part people feel — pace, weight and detail. Fast, accessible,
-          <em class="serif">quietly distinct.</em>
+          {{ t('hero.descA') }} <em class="serif">{{ t('hero.descB') }}</em>
         </p>
         <div class="hero__actions enter" style="--d: 540ms">
-          <a ref="primaryButton" class="btn btn--solid" href="#work">Selected work <span aria-hidden="true">↓</span></a>
-          <a class="btn btn--ghost" href="#contact">Get in touch <span aria-hidden="true">↗</span></a>
+          <a ref="primaryButton" class="btn btn--solid" href="#work">{{ t('hero.ctaWork') }} <span aria-hidden="true">↓</span></a>
+          <a class="btn btn--ghost" href="#contact">{{ t('hero.ctaContact') }} <span aria-hidden="true">↗</span></a>
         </div>
       </div>
+
+      <dl class="hero__stats enter" style="--d: 620ms">
+        <div v-for="stat in stats" :key="stat.key" class="hero__stat">
+          <dt>{{ t(stat.key) }}</dt>
+          <dd>{{ stat.value }}</dd>
+        </div>
+      </dl>
     </div>
 
     <div class="hero__scroll" aria-hidden="true">
-      <span>Scroll</span>
+      <span>{{ t('hero.scroll') }}</span>
       <span class="hero__scroll-line"></span>
     </div>
   </section>

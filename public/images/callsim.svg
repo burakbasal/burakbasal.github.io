@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#111114"/>
+      <stop offset="100%" stop-color="#08080a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="750" fill="url(#bg)"/>
+  <g stroke="#ffffff" stroke-opacity="0.05">
+    <path d="M0 150H1200M0 300H1200M0 450H1200M0 600H1200"/>
+    <path d="M200 0V750M400 0V750M600 0V750M800 0V750M1000 0V750"/>
+  </g>
+  <g fill="none" stroke="#ffffff" stroke-opacity="0.34" stroke-linecap="round">
+    <path d="M120 470v-70M170 470v-130M220 470v-200M270 470v-110M320 470v-170M370 470v-80M420 470v-150M470 470v-100" stroke-width="3"/>
+    <path d="M730 470v-90M780 470v-160M830 470v-120M880 470v-210M930 470v-130M980 470v-180M1030 470v-70M1080 470v-140" stroke-width="3" stroke-opacity="0.55"/>
+  </g>
+  <path d="M120 470h960" stroke="#ffffff" stroke-opacity="0.18"/>
+  <text x="120" y="210" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="700" fill="#ededeb" letter-spacing="-3">CallSim</text>
+  <text x="124" y="260" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="500" fill="#8b8b93" letter-spacing="4">TURKISH VOICE SIMULATION</text>
+  <text x="120" y="620" font-family="Arial, Helvetica, sans-serif" font-size="20" fill="#6f6f77">aksa.pages.dev</text>
+</svg>

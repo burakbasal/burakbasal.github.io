@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue'
 import { onKeyStroke, useWindowScroll } from '@vueuse/core'
+import { t } from '@/data/i18n'
+import SiteControls from './SiteControls.vue'
 
 const props = defineProps<{ active: string }>()
 
 const links = [
-  { id: 'work', label: 'Work', n: '01' },
-  { id: 'about', label: 'About', n: '02' },
-  { id: 'expertise', label: 'Expertise', n: '03' },
-  { id: 'contact', label: 'Contact', n: '04' },
-]
+  { id: 'work', key: 'nav.work', n: '01' },
+  { id: 'about', key: 'nav.about', n: '02' },
+  { id: 'expertise', key: 'nav.expertise', n: '03' },
+  { id: 'contact', key: 'nav.contact', n: '04' },
+] as const
 
 const open = ref(false)
 const toggle = ref<HTMLButtonElement | null>(null)
@@ -30,21 +32,17 @@ function close(restoreFocus = false) {
   if (restoreFocus) toggle.value?.focus()
 }
 
-function go() {
-  close()
-}
-
 onKeyStroke('Escape', () => {
   if (open.value) close(true)
 })
 </script>
 
 <template>
-  <header class="site-header" :class="{ 'is-scrolled': scrolled }">
+  <header class="site-header" :class="{ 'is-scrolled': scrolled, 'menu-is-open': open }">
     <div class="shell site-header__inner">
-      <a class="brand" href="#top" aria-label="BB. PORTFOLIO / 26 — back to top" @click="close()">
+      <a class="brand" href="#top" :aria-label="t('brand.label')" @click="close()">
         <span class="brand__mark">BB<span>.</span></span>
-        <span class="brand__meta">PORTFOLIO / 26</span>
+        <span class="brand__meta">{{ t('brand.meta') }}</span>
       </a>
 
       <nav class="nav" aria-label="Primary navigation">
@@ -56,19 +54,20 @@ onKeyStroke('Escape', () => {
           :href="`#${link.id}`"
           :aria-current="props.active === link.id ? 'true' : undefined"
         >
-          {{ link.label }}
+          {{ t(link.key) }}
         </a>
       </nav>
 
       <div class="header__end">
-        <a class="header__cta" href="#contact">Let's talk <span aria-hidden="true">↗</span></a>
+        <SiteControls class="controls--header" />
+        <a class="header__cta" href="#contact">{{ t('nav.cta') }} <span aria-hidden="true">↗</span></a>
         <button
           ref="toggle"
           class="menu-toggle"
           type="button"
           :aria-expanded="open"
           aria-controls="mobile-menu"
-          :aria-label="open ? 'Close menu' : 'Open menu'"
+          :aria-label="open ? t('menu.close') : t('menu.open')"
           @click="open = !open"
         >
           <span class="menu-toggle__lines" aria-hidden="true"><i></i><i></i></span>
@@ -78,16 +77,20 @@ onKeyStroke('Escape', () => {
 
     <Transition name="menu">
       <nav v-if="open" id="mobile-menu" ref="menu" class="mobile-menu" aria-label="Mobile navigation">
+        <div class="mobile-menu__top">
+          <SiteControls />
+        </div>
         <ul class="mobile-menu__list">
           <li v-for="link in links" :key="link.id">
-            <a class="mobile-menu__link" :href="`#${link.id}`" @click="go">
-              {{ link.label }} <span aria-hidden="true">{{ link.n }}</span>
+            <a class="mobile-menu__link" :href="`#${link.id}`" @click="close()">
+              {{ t(link.key) }} <span aria-hidden="true">{{ link.n }}</span>
             </a>
           </li>
         </ul>
         <div class="mobile-menu__foot">
           <a href="https://github.com/burakbasal" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
           <a href="https://www.linkedin.com/in/burak-basal/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+          <a href="https://discord.com/users/1163182429331259574" target="_blank" rel="noopener noreferrer">Discord ↗</a>
         </div>
       </nav>
     </Transition>
