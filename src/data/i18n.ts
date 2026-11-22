@@ -42,6 +42,7 @@ const messages = {
     'project.source': 'Source',
     'project.private': 'Private repo',
     'project.privateNote': 'Source is private — the live demo is public.',
+    'a11y.newTab': 'opens in a new tab',
     'about.eyebrow': '03 / About',
     'about.leadA': 'Software that feels',
     'about.leadB': 'considered.',
@@ -111,6 +112,7 @@ const messages = {
     'project.source': 'Kaynak',
     'project.private': 'Özel repo',
     'project.privateNote': 'Kaynak kodu özel — canlı demo herkese açık.',
+    'a11y.newTab': 'yeni sekmede açılır',
     'about.eyebrow': '03 / Hakkımda',
     'about.leadA': 'Hissedilen yazılım',
     'about.leadB': 'özenli.',
@@ -162,7 +164,10 @@ watch(
     document.title = dict['meta.title']
     document.querySelector('meta[name="description"]')?.setAttribute('content', dict['meta.description'])
     document.querySelector('meta[property="og:title"]')?.setAttribute('content', dict['meta.title'])
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content', dict['meta.description'])
+    document.querySelector('meta[property="og:locale"]')?.setAttribute('content', next === 'tr' ? 'tr_TR' : 'en_US')
     document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', dict['meta.title'])
+    document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', dict['meta.description'])
     localStorage.setItem(KEY, next)
   },
   { immediate: true },

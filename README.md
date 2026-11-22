@@ -7,8 +7,8 @@ Live: <https://burakbasal.github.io/>
 ## Stack
 
 - Vue 3 + TypeScript + Vite 8
-- Tailwind CSS 4 (`@tailwindcss/vite`)
-- Inspira UI v3 patterns, adapted selectively with `motion-v` and `@vueuse/core`
+- Plain modern CSS with semantic custom properties (no utility framework)
+- `@vueuse/core` for the few browser listeners the UI needs
 - Self-hosted variable fonts: Space Grotesk (latin + latin-ext for Turkish `ş/ğ/ı`) and Instrument Serif
 - GitHub Pages + GitHub Actions
 
@@ -28,13 +28,14 @@ npm run build
 npm run preview
 ```
 
-## Features added in the latest pass
+## Features
 
-- **Six featured projects, every one with a verified public URL.** Roamcroft and satkolay link to their own sites; endless-wordle, wall-race and rezonans link to live GitHub Pages demos; Global Bilgi · CallSim links to its published Cloudflare Pages address (`aksa.pages.dev`). The CallSim demo depends on a local origin and can return 503 while it is offline — the card says so explicitly.
-- **Real screenshots** captured from the live pages are used as card visuals (`public/images/*.jpg`). The one project whose live page was offline at capture time uses an original, clearly non-screenshot SVG tile.
-- **TR / EN language switch** in the header and mobile menu. Choice is persisted in `localStorage`; it also updates `<html lang>`, `document.title`, meta description and OG/Twitter titles. Turkish renders the surname as **Başal**, English as **Basal**.
-- **Black / white theme switch** using semantic CSS custom properties. Black is the default regardless of OS preference; the light theme is an explicit choice and is persisted.
-- **Large but viewport-safe name and denser layout**: the hero name scales up to 248px on wide screens (reduced from 304px so it fits with OS chrome such as the Windows taskbar), section padding was reduced, the work grid is three columns on desktop, and hero stats, credentials and certificates fill the page instead of leaving large gaps.
+- **Six featured projects, every one with a verified public URL.** Roamcroft and satkolay link to their own `.com` sites; endless-wordle, wall-race and rezonans link to live GitHub Pages demos; Global Bilgi · CallSim links to its published Cloudflare Pages address (`aksa.pages.dev`). The CallSim demo depends on a local origin, so the card notes that it can be offline.
+- **Real screenshots** from the live pages (`public/images/*.jpg`, all 1200×675). Roamcroft uses an owner-supplied gameplay capture, satkolay uses an owner-supplied capture of the storefront, and CallSim uses a fresh capture of the live platform.
+- **TR / EN language switch** in the header and mobile menu. The choice persists in `localStorage` and updates `<html lang>`, `document.title`, the meta description, OG/Twitter titles and OG locale. Turkish renders the surname as **Başal**, English as **Basal**.
+- **Black / white theme switch** using semantic CSS custom properties. Black is the default regardless of OS preference; the light theme is an explicit choice and persists.
+- **Large but viewport-safe name and dense layout**: the hero name scales up to 248px on wide screens, with a shorter rule for laptop windows that also have a Windows taskbar. Phones end the hero with its content instead of leaving an empty band. The work grid is three columns on desktop and every card carries a real screenshot, a live link and a clickable image.
+- **CSS interaction layer**: hover focus dims sibling cards with `:has()`, card images lift and reveal a “Live site” pill, a scroll-progress hairline runs under the header, and a static grain layer adds texture in both themes. All of it respects reduced motion and touch devices.
 - **Credentials, without invented detail**: every project was designed and built solo (no team); education is Vocational & Technical Anatolian High School, Information Technologies / Software Development; certificates shown are CCNA: Introduction to Networks, CyberOps Associate and Ethical Hacker. The certificate PDFs themselves are not published because they contain a personal email address.
 
 ## Design and motion
@@ -46,7 +47,8 @@ Motion is deliberately restrained:
 - CSS-only staggered entrance for the hero
 - `IntersectionObserver` scroll reveals, disconnected after first visibility
 - Desktop-only, rAF-throttled pointer spotlight and magnetic CTA
-- Desktop-only card spotlight using cached rects and CSS custom properties
+- CSS-only card focus dimming, image lift and live-link pill
+- Scroll-driven progress hairline (`animation-timeline: scroll()`), with a clean no-support fallback
 - One slow, transform-only ambient drift; no canvas, WebGL or shaders
 - Full `prefers-reduced-motion` and `prefers-reduced-data` fallbacks
 
@@ -58,15 +60,15 @@ Project content is limited to verifiable, high-level information from the public
 
 Social links were verified: GitHub (`burakbasal`), LinkedIn, X, Instagram and Discord (`dev.burak`, user ID supplied by the owner). GitLab had no matching user, the old `user02718281828.github.io/projects/` URL returned 404, and the old GitHub username is not used in any GitHub profile link.
 
-The live `satkolay.com` demo currently redirects to a maintenance page; the card states this and keeps the source link primary-adjacent. `aksa.pages.dev` returned 503 during verification because its local origin was offline; the link and limitation are both shown honestly.
+`satkolay.com` currently redirects to a maintenance page; the card states this. `aksa.pages.dev` was live at capture time but needs its local origin, so the card keeps that limitation visible.
 
 ## Performance and validation
 
-Local production build (latest pass): JS **40.8 kB gzip**, CSS **6.9 kB gzip**, plus 5 small JPEG screenshots and one SVG tile, all lazy-loaded.
+Production build: JS **40.6 kB gzip**, CSS **5.7 kB gzip**, plus six lazy-loaded JPEG screenshots. Tailwind, `motion-v`, the unused font packages and the old SVG tile were removed in this pass.
 
-Manual checks passed at 320×568, 375×667, 390×844, 430×932, 768×1024, 1440×900 and 1920×1080: zero horizontal overflow, zero console errors, all seven card images loaded after scroll. Mobile menu open/close, Escape handling, focus return, skip link, language persistence, theme persistence, `document.title` updates and both font subsets were verified in headless Chrome. axe-core (WCAG 2.0/2.1 A+AA) reports zero violations in both dark/TR and light/EN modes.
+Manual checks passed at 320×568, 375×667, 390×844, 430×932, 768×1024, 1366×640, 1440×900 and 1920×1080: zero horizontal overflow, zero console errors, all six card images loaded at 1200×675, clickable image and title links resolve to the six live URLs. Mobile menu open/close, Escape handling, focus return, skip link, language and theme persistence, `document.title` updates, the live-link pill and both font subsets were verified in headless Chrome. axe-core (WCAG 2.0/2.1 A+AA) reports zero violations in both dark/TR and light/EN modes.
 
-Lighthouse scores from the previous production deployment were 99/100/100/100 (Perf/A11y/BP/SEO) with LCP 1.4 s and CLS 0. The current pass adds screenshots, i18n and theming, so the live-site scores are re-measured after deployment rather than assumed here.
+Lighthouse scores from the previous production deployment were 99/100/100/100 (Perf/A11y/BP/SEO) with LCP 1.4 s and CLS 0. This pass changes assets and CSS, so live scores are re-measured after deployment rather than assumed here.
 
 ## Deployment
 

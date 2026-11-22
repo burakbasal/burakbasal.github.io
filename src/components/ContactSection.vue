@@ -27,7 +27,7 @@ const channels = [
           :href="channel.href"
           target="_blank"
           rel="noopener noreferrer"
-          :aria-label="`${channel.label} ${t('contact.profile')} (opens in a new tab)`"
+          :aria-label="`${channel.label} ${channel.handle} — ${t('contact.profile')} (${t('a11y.newTab')})`"
         >
           <span class="contact__row-label">
             <small>{{ channel.label }}</small>

@@ -21,9 +21,9 @@ export interface Project {
 }
 
 /**
- * Every featured project has a verified public URL. Screenshots were captured
- * from those live pages. Private repositories are labelled and expose only the
- * public demo — no source, configuration or internal links.
+ * Every project links to a verified public URL. Screenshots come from the live
+ * pages or from owner-supplied captures. Private repositories expose only the
+ * public demo — never source, configuration or internal links.
  */
 export const projects: Project[] = [
   {
@@ -31,8 +31,8 @@ export const projects: Project[] = [
     title: 'Roamcroft',
     kind: { en: 'Browser game · Public', tr: 'Tarayıcı oyunu · Açık kaynak' },
     description: {
-      en: 'An isometric farming and exploration world with cooperative village building, real-time 3D and saves that respect your time.',
-      tr: 'İzometrik çiftlik ve keşif dünyası; co-op köy kurma, gerçek zamanlı 3D ve zamanınıza saygılı kayıtlar.',
+      en: 'An isometric, real-time 3D farming and exploration world with cooperative village building. Live at roamcroft.com.',
+      tr: 'İzometrik, gerçek zamanlı 3D çiftlik ve keşif dünyası; co-op köy kurma. Yayında: roamcroft.com.',
     },
     tags: ['TypeScript', 'React', 'Three.js', 'Cloudflare'],
     image: '/images/roamcroft.jpg',
@@ -46,8 +46,8 @@ export const projects: Project[] = [
     title: 'satkolay',
     kind: { en: 'Marketplace · Public', tr: 'Pazar yeri · Açık kaynak' },
     description: {
-      en: 'A second-hand marketplace built as a focused Next.js application with a PostgreSQL-backed data layer.',
-      tr: 'Odaklı Next.js arayüzü ve PostgreSQL veri katmanıyla geliştirilmiş ikinci el pazar yeri.',
+      en: 'A second-hand marketplace built with Next.js and a PostgreSQL data layer. Live at satkolay.com.',
+      tr: 'Next.js ve PostgreSQL veri katmanıyla geliştirilmiş ikinci el pazar yeri. Yayında: satkolay.com.',
     },
     tags: ['Next.js', 'TypeScript', 'PostgreSQL'],
     image: '/images/satkolay.jpg',
@@ -56,8 +56,8 @@ export const projects: Project[] = [
       { label: 'source', href: 'https://github.com/burakbasal/satkolay' },
     ],
     note: {
-      en: 'Live site currently redirects to a maintenance page.',
-      tr: 'Canlı site şu anda bakım sayfasına yönlendiriliyor.',
+      en: 'The public site is currently in maintenance mode.',
+      tr: 'Canlı site şu anda bakım modunda.',
     },
   },
   {
@@ -104,15 +104,15 @@ export const projects: Project[] = [
     title: 'Global Bilgi · CallSim',
     kind: { en: 'Voice simulation · Live demo', tr: 'Ses simülasyonu · Canlı demo' },
     description: {
-      en: 'A local Turkish call-centre simulation and candidate assessment platform with voice interaction and scenario-based evaluation.',
-      tr: 'Sesli etkileşim ve senaryo tabanlı değerlendirme içeren, yerel Türkçe çağrı merkezi simülasyonu ve aday değerlendirme platformu.',
+      en: 'A Turkish call-centre simulation and candidate assessment platform with voice interaction and scenario-based evaluation. Live at aksa.pages.dev.',
+      tr: 'Sesli etkileşim ve senaryo tabanlı değerlendirme içeren Türkçe çağrı merkezi simülasyonu ve aday değerlendirme platformu. Yayında: aksa.pages.dev.',
     },
     tags: ['Python', 'TypeScript', 'PostgreSQL'],
-    image: '/images/callsim.svg',
+    image: '/images/callsim.jpg',
     links: [{ label: 'live', href: 'https://aksa.pages.dev/' }],
     note: {
-      en: 'The published demo needs its local origin running; it may return 503 when offline.',
-      tr: 'Yayındaki demo yerel origin açık olmasını gerektirir; kapalıyken 503 dönebilir.',
+      en: 'The demo runs against a local origin, so it can be offline.',
+      tr: 'Demo yerel origin üzerinden çalışır; kapalıyken erişilemeyebilir.',
     },
     privateRepo: true,
   },

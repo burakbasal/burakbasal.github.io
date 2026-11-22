@@ -1,6 +1,4 @@
-﻿@import "tailwindcss";
-
-@font-face {
+﻿@font-face {
   font-family: "Space Grotesk Variable";
   src: url("/fonts/space-grotesk-latin-wght-normal.woff2") format("woff2");
   font-weight: 300 700;
@@ -32,20 +30,6 @@
   font-style: italic;
   font-display: swap;
   unicode-range: U+0100-024F;
-}
-
-@theme {
-  --font-sans: "Space Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Space Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-editorial: "Instrument Serif", Georgia, serif;
-
-  --color-ink: var(--bg);
-  --color-surface: var(--surface);
-  --color-elevated: var(--surface);
-  --color-chalk: var(--fg);
-  --color-mute: var(--mute);
-  --color-faint: var(--faint);
-  --color-hairline: rgba(var(--rgb), 0.09);
 }
 
 :root,
@@ -80,6 +64,8 @@
 }
 
 :root {
+  --font-sans: "Space Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-editorial: "Instrument Serif", Georgia, serif;
   --gutter: clamp(20px, 5vw, 80px);
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   -webkit-text-size-adjust: 100%;
@@ -112,6 +98,22 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+/* Static print-like grain: gives flat surfaces a little texture on both themes. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+:root[data-theme="light"] body::after {
+  opacity: 0.05;
 }
 
 ::selection {
@@ -288,6 +290,33 @@ ul {
   border-bottom-color: rgba(var(--rgb), 0.06);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
+}
+
+.site-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--fg);
+  opacity: 0.55;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+@supports (animation-timeline: scroll()) {
+  .site-header::after {
+    animation: progress linear both;
+    animation-timeline: scroll(root);
+    animation-duration: auto;
+  }
+}
+
+@keyframes progress {
+  to {
+    transform: scaleX(1);
+  }
 }
 
 .site-header__inner {
@@ -582,6 +611,15 @@ ul {
   overflow: hidden;
 }
 
+/* Phones and tablets: let the hero end with its content instead of leaving a
+   large empty band above the work section. */
+@media (max-width: 899px) {
+  .hero {
+    min-height: auto;
+    padding-block: 104px 44px;
+  }
+}
+
 .hero__spotlight {
   position: absolute;
   z-index: -1;
@@ -748,10 +786,6 @@ ul {
   color: var(--surface-2);
 }
 
-.btn--solid:hover {
-  background: var(--fg);
-}
-
 .btn--ghost {
   border-color: rgba(var(--rgb), 0.16);
   color: var(--fg-soft);
@@ -830,28 +864,28 @@ ul {
    role and primary actions inside the first screen. */
 @media (min-width: 1024px) and (max-height: 800px) {
   .hero {
-    padding-block: 84px 30px;
+    padding-block: 76px 22px;
   }
 
   .hero__title {
-    font-size: clamp(4.2rem, 13.5vw, 13rem);
+    font-size: clamp(4.2rem, 12.5vw, 12rem);
   }
 
   .hero__meta {
-    padding-bottom: 14px;
+    padding-bottom: 10px;
   }
 
   .hero__lower {
-    gap: 14px;
-    padding-top: 16px;
+    gap: 12px;
+    padding-top: 12px;
   }
 
   .hero__stats {
-    margin-top: 16px;
+    margin-top: 10px;
   }
 
   .hero__stat {
-    padding-block: 9px;
+    padding-block: 7px;
   }
 }
 
@@ -921,8 +955,6 @@ ul {
 }
 
 .project {
-  --sx: 50%;
-  --sy: 0%;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -931,18 +963,11 @@ ul {
   border: 1px solid rgba(var(--rgb), 0.075);
   border-radius: 6px;
   overflow: hidden;
-  transition: border-color 0.4s ease, transform 0.5s var(--ease), background-color 0.4s ease;
+  transition: border-color 0.4s ease, transform 0.5s var(--ease), opacity 0.4s ease, background-color 0.4s ease;
 }
 
-.project::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(360px circle at var(--sx) var(--sy), rgba(var(--rgb), 0.055), transparent 62%);
-  opacity: 0;
-  transition: opacity 0.45s ease;
-  pointer-events: none;
+.project:focus-within {
+  border-color: rgba(var(--rgb), 0.2);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -951,17 +976,19 @@ ul {
     border-color: rgba(var(--rgb), 0.2);
   }
 
-  .project:hover::after {
-    opacity: 1;
+  .work__grid:has(.project:hover) .project:not(:hover) {
+    opacity: 0.58;
   }
 }
 
 .project__frame {
+  display: block;
   position: relative;
   aspect-ratio: 16 / 9;
   overflow: hidden;
   background: var(--surface-2);
   border-bottom: 1px solid rgba(var(--rgb), 0.06);
+  color: inherit;
 }
 
 .project__frame::before {
@@ -988,6 +1015,14 @@ ul {
   }
 }
 
+:root[data-theme="light"] .project {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+:root[data-theme="light"] .project__frame img {
+  filter: saturate(0.94) contrast(0.98);
+}
+
 .project__index {
   position: absolute;
   z-index: 2;
@@ -1000,20 +1035,43 @@ ul {
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
 }
 
-.project__frame-link {
+.project__frame-live {
   position: absolute;
   z-index: 2;
-  right: 16px;
+  right: 14px;
   bottom: 12px;
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 20px;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-  transition: transform 0.35s var(--ease);
+  padding: 7px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  background: rgba(5, 5, 5, 0.62);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.35s var(--ease);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.project__frame:focus-visible {
+  outline-offset: -3px;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .project:hover .project__frame-link {
-    transform: translate(3px, -3px);
+  .project:hover .project__frame-live,
+  .project__frame:focus-visible .project__frame-live {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (hover: none) {
+  .project__frame-live {
+    opacity: 1;
+    transform: none;
   }
 }
 
@@ -1451,6 +1509,10 @@ ul {
   }
 
   .hero__spotlight {
+    display: none;
+  }
+
+  .site-header::after {
     display: none;
   }
 }
