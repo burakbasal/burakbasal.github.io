@@ -47,6 +47,8 @@ The pointer effects are gated behind `(hover: hover) and (pointer: fine)` and ne
 
 Project content is limited to verifiable, high-level information from the public GitHub profile, public repository metadata and live sites. Two private projects are described only by their repository descriptions; no private source, configuration or internal links are included. The former portfolio repository and its terminal aesthetic were not reused.
 
+Social links were checked rather than copied from the old site. GitHub (`burakbasal`), LinkedIn, X and Instagram resolved successfully and are included. GitLab returned no matching user, the Discord user endpoint could not be reached, and the old `user02718281828.github.io/projects/` URL returned 404, so those are not presented as active links. The old GitHub username is not used in any GitHub profile link.
+
 ## Performance and validation
 
 Local production build and Lighthouse audit (mobile emulation, headless Chrome):

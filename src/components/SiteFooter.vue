@@ -12,6 +12,8 @@ function toTop() {
       <nav class="site-footer__links" aria-label="Footer navigation">
         <a href="https://github.com/burakbasal" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a href="https://www.linkedin.com/in/burak-basal/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://x.com/user02718281828" target="_blank" rel="noopener noreferrer">X</a>
+        <a href="https://instagram.com/user02718281828" target="_blank" rel="noopener noreferrer">Instagram</a>
       </nav>
       <button class="to-top" type="button" @click="toTop">Back to top <span aria-hidden="true">↑</span></button>
     </div>

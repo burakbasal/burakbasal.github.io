@@ -2,6 +2,8 @@
 const channels = [
   { label: 'GitHub', handle: '@burakbasal', href: 'https://github.com/burakbasal' },
   { label: 'LinkedIn', handle: 'in/burak-basal', href: 'https://www.linkedin.com/in/burak-basal/' },
+  { label: 'X', handle: '@user02718281828', href: 'https://x.com/user02718281828' },
+  { label: 'Instagram', handle: '@user02718281828', href: 'https://instagram.com/user02718281828' },
 ]
 </script>
 
