@@ -23,8 +23,9 @@ ekran görüntüsü alınabilir, sayfa kaydedilebilir. Yukarıdakiler **caydır�
 önlemlerdir; kriptografik güvenlik değildir.
 
 Gerçek HTTP başlıkları (`HSTS`, `X-Frame-Options`, `COOP/CORP`, `frame-ancestors`) için GitHub Pages
-desteklenmez. `cloudflare/` klasöründe hazır Worker ve `_headers` yapılandırması var; kurulum
-adımları `cloudflare/README.md` içinde.
+desteklenmez. Canlı `curl -I` çıktısında yalnızca GitHub’ın kendi HSTS başlığı görünür; `_headers`
+dosyası burada okunmaz. `cloudflare/` klasöründe hazır Worker ve `_headers` yapılandırması var;
+kurulum adımları `cloudflare/README.md` içinde.
 
 ## Bildirim
 
