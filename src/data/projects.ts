@@ -104,12 +104,12 @@ export const projects: Project[] = [
     title: 'Global Bilgi · CallSim',
     kind: { en: 'Voice simulation · Live demo', tr: 'Ses simülasyonu · Canlı demo' },
     description: {
-      en: 'A Turkish call-centre simulation and candidate assessment platform with voice interaction and scenario-based evaluation. Live at aksa.pages.dev.',
-      tr: 'Sesli etkileşim ve senaryo tabanlı değerlendirme içeren Türkçe çağrı merkezi simülasyonu ve aday değerlendirme platformu. Yayında: aksa.pages.dev.',
+      en: 'A Turkish call-centre simulation and candidate assessment platform with live voice interviews and explainable scoring. Live at gbsim.pages.dev.',
+      tr: 'Canlı sesli görüşme ve açıklanabilir değerlendirme sunan Türkçe çağrı merkezi simülasyonu ve aday değerlendirme platformu. Yayında: gbsim.pages.dev.',
     },
     tags: ['Python', 'TypeScript', 'PostgreSQL'],
     image: '/images/callsim.jpg',
-    links: [{ label: 'live', href: 'https://aksa.pages.dev/' }],
+    links: [{ label: 'live', href: 'https://gbsim.pages.dev/' }],
     note: {
       en: 'The demo runs against a local origin, so it can be offline.',
       tr: 'Demo yerel origin üzerinden çalışır; kapalıyken erişilemeyebilir.',

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { t } from '@/data/i18n'
+import AppIcon from './AppIcon.vue'
 
 const channels = [
   { label: 'GitHub', handle: '@burakbasal', href: 'https://github.com/burakbasal' },
@@ -33,7 +34,7 @@ const channels = [
             <small>{{ channel.label }}</small>
             <strong>{{ channel.handle }}</strong>
           </span>
-          <span class="contact__arrow" aria-hidden="true">↗</span>
+          <AppIcon class="contact__arrow" name="arrow-up-right" />
         </a>
       </div>
 

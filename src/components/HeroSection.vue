@@ -3,6 +3,7 @@ import { computed, onScopeDispose, ref } from 'vue'
 import { useEventListener, useMediaQuery } from '@vueuse/core'
 import { t } from '@/data/i18n'
 import { useMagnetic } from '@/composables/useMagnetic'
+import AppIcon from './AppIcon.vue'
 
 const finePointer = useMediaQuery('(hover: hover) and (pointer: fine)')
 const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
@@ -80,8 +81,8 @@ const stats = [
           {{ t('hero.descA') }} <em class="serif">{{ t('hero.descB') }}</em>
         </p>
         <div class="hero__actions enter" style="--d: 540ms">
-          <a ref="primaryButton" class="btn btn--solid" href="#work">{{ t('hero.ctaWork') }} <span aria-hidden="true">↓</span></a>
-          <a class="btn btn--ghost" href="#contact">{{ t('hero.ctaContact') }} <span aria-hidden="true">↗</span></a>
+          <a ref="primaryButton" class="btn btn--solid" href="#work">{{ t('hero.ctaWork') }} <AppIcon class="icon--down" name="arrow-down" /></a>
+          <a class="btn btn--ghost" href="#contact">{{ t('hero.ctaContact') }} <AppIcon name="arrow-up-right" /></a>
         </div>
       </div>
 

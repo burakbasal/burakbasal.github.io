@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { t } from '@/data/i18n'
+import AppIcon from './AppIcon.vue'
 
 function toTop() {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -18,7 +19,7 @@ function toTop() {
         <a href="https://instagram.com/user02718281828" target="_blank" rel="noopener noreferrer">Instagram</a>
         <a href="https://discord.com/users/1163182429331259574" target="_blank" rel="noopener noreferrer">Discord</a>
       </nav>
-      <button class="to-top" type="button" @click="toTop">{{ t('footer.top') }} <span aria-hidden="true">↑</span></button>
+      <button class="to-top" type="button" @click="toTop">{{ t('footer.top') }} <AppIcon name="arrow-up" /></button>
     </div>
   </footer>
 </template>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue'
 import { t } from '@/data/i18n'
+import ContentGuard from './components/ContentGuard.vue'
 import SiteHeader from './components/SiteHeader.vue'
 import HeroSection from './components/HeroSection.vue'
 import WorkSection from './components/WorkSection.vue'
@@ -47,4 +48,5 @@ onUnmounted(() => observer?.disconnect())
   </main>
 
   <SiteFooter />
+  <ContentGuard />
 </template>

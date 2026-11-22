@@ -30,12 +30,14 @@ npm run preview
 
 ## Features
 
-- **Six featured projects, every one with a verified public URL.** Roamcroft and satkolay link to their own `.com` sites; endless-wordle, wall-race and rezonans link to live GitHub Pages demos; Global Bilgi · CallSim links to its published Cloudflare Pages address (`aksa.pages.dev`). The CallSim demo depends on a local origin, so the card notes that it can be offline.
+- **Six featured projects, every one with a verified public URL.** Roamcroft and satkolay link to their own `.com` sites; endless-wordle, wall-race and rezonans link to live GitHub Pages demos; Global Bilgi · CallSim links to its current Cloudflare Pages address (`gbsim.pages.dev`). The CallSim demo depends on a local origin, so the card notes that it can be offline.
 - **Real screenshots** from the live pages (`public/images/*.jpg`, all 1200×675). Roamcroft uses an owner-supplied gameplay capture, satkolay uses an owner-supplied capture of the storefront, and CallSim uses a fresh capture of the live platform.
 - **TR / EN language switch** in the header and mobile menu. The choice persists in `localStorage` and updates `<html lang>`, `document.title`, the meta description, OG/Twitter titles and OG locale. Turkish renders the surname as **Başal**, English as **Basal**.
 - **Black / white theme switch** using semantic CSS custom properties. Black is the default regardless of OS preference; the light theme is an explicit choice and persists.
 - **Large but viewport-safe name and dense layout**: the hero name scales up to 248px on wide screens, with a shorter rule for laptop windows that also have a Windows taskbar. Phones end the hero with its content instead of leaving an empty band. The work grid is three columns on desktop and every card carries a real screenshot, a live link and a clickable image.
-- **CSS interaction layer**: hover focus dims sibling cards with `:has()`, card images lift and reveal a “Live site” pill, a scroll-progress hairline runs under the header, and a static grain layer adds texture in both themes. All of it respects reduced motion and touch devices.
+- **CSS interaction layer**: hover focus dims sibling cards with `:has()`, card images lift and reveal a “Live site” pill, a scroll-progress hairline runs under the header, and a pre-rendered noise tile adds texture in both themes. All of it respects reduced motion and touch devices.
+- **Inline SVG icons only**: every directional arrow is a stroke SVG from `AppIcon.vue`. There are no emoji or arrow glyphs anywhere in the interface, including CSS pseudo-elements.
+- **Copy guard**: selection, copy, cut, drag, the context menu and the usual DevTools shortcuts are intercepted; a small localized notice asks “Bu bilgileri ne yapacaksın?” instead. This is a deterrent for casual copying, not a security boundary — anything rendered in a browser can still be saved or inspected.
 - **Credentials, without invented detail**: every project was designed and built solo (no team); education is Vocational & Technical Anatolian High School, Information Technologies / Software Development; certificates shown are CCNA: Introduction to Networks, CyberOps Associate and Ethical Hacker. The certificate PDFs themselves are not published because they contain a personal email address.
 
 ## Design and motion
@@ -60,7 +62,7 @@ Project content is limited to verifiable, high-level information from the public
 
 Social links were verified: GitHub (`burakbasal`), LinkedIn, X, Instagram and Discord (`dev.burak`, user ID supplied by the owner). GitLab had no matching user, the old `user02718281828.github.io/projects/` URL returned 404, and the old GitHub username is not used in any GitHub profile link.
 
-`satkolay.com` currently redirects to a maintenance page; the card states this. `aksa.pages.dev` was live at capture time but needs its local origin, so the card keeps that limitation visible.
+`satkolay.com` currently redirects to a maintenance page; the card states this. `gbsim.pages.dev` was live at capture time but needs its local origin, so the card keeps that limitation visible.
 
 ## Performance and validation
 

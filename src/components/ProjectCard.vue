@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { locale, t } from '@/data/i18n'
 import type { Project } from '@/data/projects'
+import AppIcon from './AppIcon.vue'
 
 const props = defineProps<{ project: Project; delay?: number }>()
 
@@ -29,13 +30,15 @@ function linkLabel(label: 'live' | 'source') {
       />
       <span class="project__index" aria-hidden="true">{{ props.project.index }}</span>
       <span v-if="props.project.privateRepo" class="project__badge">{{ t('project.private') }}</span>
-      <span class="project__frame-live" aria-hidden="true">{{ t('project.live') }} ↗</span>
+      <span class="project__frame-live" aria-hidden="true">{{ t('project.live') }} <AppIcon name="arrow-up-right" /></span>
     </a>
 
     <div class="project__body">
       <p class="project__kind">{{ kind }}</p>
       <h3 class="project__title">
-        <a :href="liveHref" target="_blank" rel="noopener noreferrer" :aria-label="liveLabel">{{ props.project.title }}</a>
+        <a :href="liveHref" target="_blank" rel="noopener noreferrer" :aria-label="liveLabel">
+          {{ props.project.title }} <AppIcon class="project__title-icon" name="arrow-up-right" />
+        </a>
       </h3>
       <p class="project__desc">{{ description }}</p>
       <p v-if="note" class="project__note">{{ note }}</p>
@@ -56,7 +59,7 @@ function linkLabel(label: 'live' | 'source') {
           rel="noopener noreferrer"
           :aria-label="`${linkLabel(link.label)} — ${props.project.title} (${t('a11y.newTab')})`"
         >
-          {{ linkLabel(link.label) }} <span aria-hidden="true">↗</span>
+          {{ linkLabel(link.label) }} <AppIcon name="arrow-up-right" />
         </a>
       </div>
     </div>

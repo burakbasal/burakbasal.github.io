@@ -2,6 +2,7 @@
 import { computed, nextTick, ref, watch } from 'vue'
 import { onKeyStroke, useWindowScroll } from '@vueuse/core'
 import { t } from '@/data/i18n'
+import AppIcon from './AppIcon.vue'
 import SiteControls from './SiteControls.vue'
 
 const props = defineProps<{ active: string }>()
@@ -60,7 +61,7 @@ onKeyStroke('Escape', () => {
 
       <div class="header__end">
         <SiteControls class="controls--header" />
-        <a class="header__cta" href="#contact">{{ t('nav.cta') }} <span aria-hidden="true">↗</span></a>
+        <a class="header__cta" href="#contact">{{ t('nav.cta') }} <AppIcon name="arrow-up-right" /></a>
         <button
           ref="toggle"
           class="menu-toggle"
@@ -88,9 +89,9 @@ onKeyStroke('Escape', () => {
           </li>
         </ul>
         <div class="mobile-menu__foot">
-          <a href="https://github.com/burakbasal" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-          <a href="https://www.linkedin.com/in/burak-basal/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
-          <a href="https://discord.com/users/1163182429331259574" target="_blank" rel="noopener noreferrer">Discord ↗</a>
+          <a href="https://github.com/burakbasal" target="_blank" rel="noopener noreferrer">GitHub <AppIcon name="arrow-up-right" /></a>
+          <a href="https://www.linkedin.com/in/burak-basal/" target="_blank" rel="noopener noreferrer">LinkedIn <AppIcon name="arrow-up-right" /></a>
+          <a href="https://discord.com/users/1163182429331259574" target="_blank" rel="noopener noreferrer">Discord <AppIcon name="arrow-up-right" /></a>
         </div>
       </nav>
     </Transition>
