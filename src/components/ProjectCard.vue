@@ -13,6 +13,7 @@ const spotlight = computed(() => finePointer.value && !reducedMotion.value)
 const kind = computed(() => props.project.kind[locale.value])
 const description = computed(() => props.project.description[locale.value])
 const note = computed(() => props.project.note?.[locale.value])
+const liveHref = computed(() => props.project.links.find((link) => link.label === 'live')?.href)
 
 const card = ref<HTMLElement | null>(null)
 let rect: DOMRect | null = null
@@ -73,7 +74,18 @@ function linkLabel(label: 'live' | 'source') {
 
     <div class="project__body">
       <p class="project__kind">{{ kind }}</p>
-      <h3 class="project__title">{{ props.project.title }}</h3>
+      <h3 class="project__title">
+        <a
+          v-if="liveHref"
+          :href="liveHref"
+          target="_blank"
+          rel="noopener noreferrer"
+          :aria-label="`${props.project.title} — ${t('project.live')} (opens in a new tab)`"
+        >
+          {{ props.project.title }}
+        </a>
+        <template v-else>{{ props.project.title }}</template>
+      </h3>
       <p class="project__desc">{{ description }}</p>
       <p v-if="note" class="project__note">{{ note }}</p>
       <p v-else-if="props.project.privateRepo" class="project__private-note">{{ t('project.privateNote') }}</p>
