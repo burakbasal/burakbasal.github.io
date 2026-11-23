@@ -9,7 +9,7 @@ Repoda gizli anahtar, token veya kimlik bilgisi bulunmaz.
 |---|---|
 | İçerik | Seçim, kopyalama, kesme, sürükleme/bırakma, sağ tık, yazdırma, Ctrl+F ve klavye kısayolları engellenir; `selectionchange` her seçimi anında sıfırlar; yerel uyarı gösterilir. |
 | Konsol | Üretimde tüm `console.*` metotları non-writable/non-configurable no-op’a çevrilir ve `console` dondurulur; 250 ms’de bir yeniden uygulanır. |
-| DevTools | Pencere geometrisi (100 px eşik), `chrome.devtools`, debugger zamanlaması ve odak kaybı (ayrı pencere DevTools) algılanır; sayfa kalkanla bulanıklaşır, kilit 20 saniye yapışkan tutulur. |
+| DevTools | Pencere geometrisi (160 px eşik), debugger zamanlaması ve odak kaybı izlenir; kalkan yalnızca **en az iki bağımsız sinyal** birlikte görülürse açılır (yanlış pozitifleri önler), kilit 10 saniye yapışkan tutulur. |
 | Kalkan | DOM’dan silinse de `MutationObserver` geri ekler; sınıf değişimi geri alınır. |
 | Kanarya | Deneme sayıları yalnızca `localStorage`’da tutulur; kimlik, ağ isteği veya kişisel veri yoktur. |
 | CSP | Build sırasında meta CSP eklenir: `script-src 'self'`, `object-src 'none'`, `frame-src 'none'`, `upgrade-insecure-requests`. |

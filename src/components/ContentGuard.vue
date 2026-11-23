@@ -10,6 +10,7 @@ let watchdog = 0
 let blurTimer = 0
 let locked = false
 let stickyUntil = 0
+let focusSuspectedUntil = 0
 let keeper: MutationObserver | null = null
 let clearing = false
 
@@ -54,15 +55,19 @@ function onKeydown(event: Event) {
   if ((keyEvent.shiftKey || keyEvent.altKey) && ['i', 'j', 'c', 'k', 'o'].includes(key)) warn(event, 'shortcut')
 }
 
+/**
+ * Window geometry alone is unreliable: the Windows taskbar, browser chrome and
+ * display scaling can all produce a >100 px gap without DevTools being open.
+ * The conservative 160 px threshold matches a docked console (~300 px).
+ */
 function docked() {
   const w = window.outerWidth - window.innerWidth
   const h = window.outerHeight - window.innerHeight
-  const chrome = (window as Window & { chrome?: { devtools?: unknown } }).chrome
-  return window.innerWidth > 700 && (w > 100 || h > 100 || (chrome != null && 'devtools' in chrome))
+  return window.innerWidth > 700 && (w > 160 || h > 160)
 }
 
 function lock(sticky = false) {
-  if (sticky) stickyUntil = Date.now() + 20000
+  if (sticky) stickyUntil = Date.now() + 10000
   if (locked) return
   locked = true
   noteAttempt('devtools')
@@ -109,25 +114,38 @@ function onBlur() {
   window.clearTimeout(blurTimer)
   if (document.visibilityState !== 'visible') return
   blurTimer = window.setTimeout(() => {
-    if (document.visibilityState === 'visible' && !document.hasFocus()) lock(true)
+    if (document.visibilityState !== 'visible' || document.hasFocus()) return
+    // Focus loss is only one signal: switching to another app must not trigger
+    // the shield. It is combined with geometry or debugger timing in check().
+    focusSuspectedUntil = Date.now() + 6000
+    check()
   }, 900)
 }
 
 function onFocus() {
   window.clearTimeout(blurTimer)
+  focusSuspectedUntil = 0
   check()
 }
 
 function check() {
   if (Date.now() < stickyUntil) return
-  if (docked()) return lock()
+
+  const geometrySignal = docked()
+  const focusSignal = Date.now() < focusSuspectedUntil
 
   // No-op when no debugger is attached; an attached debugger pauses here long
   // enough to be measured, including an undocked console.
   const started = performance.now()
   // eslint-disable-next-line no-debugger
   debugger
-  if (performance.now() - started > 60) return lock()
+  const timingSignal = performance.now() - started > 60
+
+  // Two independent signals are required. A docked console gives geometry +
+  // timing; an undocked console gives focus + timing; a plain window-resize or
+  // alt-tab gives only one and is ignored.
+  const signals = Number(geometrySignal) + Number(timingSignal) + Number(focusSignal)
+  if (signals >= 2) return lock(true)
 
   silenceConsole()
   unlock()
