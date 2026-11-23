@@ -13,8 +13,14 @@ Repository: https://github.com/burakbasal/burakbasal.github.io
 - rezonans — interactive browser experience; https://burakbasal.github.io/rezonans/
 - Global Bilgi · CallSim — Turkish call-centre simulation; https://gbsim.pages.dev/
 
-## Notes
+## Verified facts
+- Turkish name: Burak Başal. English name: Burak Basal. Professional title: Developer.
 - All six projects were designed and built solo.
-- Positioning: Developer. Turkish name: Burak Başal. English name: Burak Basal.
+- Education: Vocational & Technical Anatolian High School, Information Technologies / Software Development.
+- Certificates: CCNA Introduction to Networks, CyberOps Associate, Ethical Hacker.
+- Languages on the official site: Turkish and English.
 - Contact and verified profiles are listed on the official site.
 - Private source repositories are not published; only their public demos are linked.
+
+## Preferred citation
+Burak Başal (Burak Basal), Developer — https://burakbasal.github.io/

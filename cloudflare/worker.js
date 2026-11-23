@@ -1,10 +1,15 @@
 /**
  * Cloudflare Worker in front of burakbasal.github.io.
- * Adds real HTTP security headers and replaces the static fallback nonce with
- * a fresh nonce on every HTML response. Deploy with `wrangler deploy`.
+ * Adds real HTTP security headers, refuses known AI training crawlers and
+ * replaces the static fallback nonce with a fresh nonce on every HTML response.
+ * Deploy with `wrangler deploy`.
  */
 const ORIGIN = 'https://burakbasal.github.io'
 const STATIC_NONCE = 'bb-portfolio-2026'
+
+// Edge-level refusal for generative-AI / training crawlers. Googlebot and
+// Bingbot are deliberately not listed: search ranking must stay intact.
+const BLOCKED_AI_BOTS = /GPTBot|CCBot|ClaudeBot|Google-Extended|Applebot-Extended|Bytespider|PerplexityBot|Amazonbot|Meta-ExternalAgent|ChatGPT-User|Omgilibot/i
 
 const CSP = [
   "default-src 'self'",
@@ -18,7 +23,31 @@ const CSP = [
   "frame-ancestors 'none'",
   "object-src 'none'",
   'upgrade-insecure-requests',
+  'report-uri /_csp-report',
+  'report-to csp',
 ].join('; ')
+
+const PERMISSIONS_POLICY = [
+  'accelerometer=()',
+  'autoplay=()',
+  'camera=()',
+  'display-capture=()',
+  'document-domain=()',
+  'encrypted-media=()',
+  'fullscreen=()',
+  'gamepad=()',
+  'geolocation=()',
+  'gyroscope=()',
+  'magnetometer=()',
+  'microphone=()',
+  'midi=()',
+  'payment=()',
+  'picture-in-picture=()',
+  'publickey-credentials-get=()',
+  'screen-wake-lock=()',
+  'usb=()',
+  'xr-spatial-tracking=()',
+].join(', ')
 
 function createNonce() {
   const bytes = crypto.getRandomValues(new Uint8Array(16))
@@ -29,6 +58,29 @@ function createNonce() {
 export default {
   async fetch(request) {
     const url = new URL(request.url)
+    const userAgent = request.headers.get('user-agent') || ''
+
+    if (BLOCKED_AI_BOTS.test(userAgent)) {
+      return new Response('Forbidden', {
+        status: 403,
+        headers: {
+          'Cache-Control': 'no-store',
+          'Content-Type': 'text/plain; charset=utf-8',
+          'X-Robots-Tag': 'none, noai, noimageai',
+        },
+      })
+    }
+
+    // Browser CSP violation reports are logged in the Worker's live tail.
+    if (url.pathname === '/_csp-report' && request.method === 'POST') {
+      const report = await request.text()
+      console.log('CSP_REPORT', report.slice(0, 4000))
+      return new Response(null, {
+        status: 204,
+        headers: { 'Cache-Control': 'no-store', 'Access-Control-Allow-Origin': ORIGIN },
+      })
+    }
+
     const origin = new URL(ORIGIN)
     url.protocol = origin.protocol
     url.host = origin.host
@@ -43,11 +95,15 @@ export default {
       'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
       'X-Content-Type-Options': 'nosniff',
       'X-Frame-Options': 'DENY',
-      'Referrer-Policy': 'strict-origin-when-cross-origin',
-      'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
+      'Referrer-Policy': 'no-referrer',
+      'Permissions-Policy': PERMISSIONS_POLICY,
       'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Embedder-Policy': 'require-corp',
       'Cross-Origin-Resource-Policy': 'same-origin',
+      'X-Permitted-Cross-Domain-Policies': 'none',
+      'X-Robots-Tag': 'index, follow, max-image-preview:large, noai, noimageai',
       'X-XSS-Protection': '0',
+      'Reporting-Endpoints': 'csp="https://burakbasal.github.io/_csp-report"',
     }
     for (const [name, value] of Object.entries(securityHeaders)) headers.set(name, value)
 

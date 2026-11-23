@@ -184,6 +184,21 @@ function onPointerLeave() {
   wrap.value?.classList.remove('is-live')
 }
 
+function onBurst() {
+  const cx = pointer.active ? pointer.x : width / 2
+  const cy = pointer.active ? pointer.y : height / 2
+  for (let i = 0; i < 8; i++) {
+    const angle = (i / 8) * Math.PI * 2
+    ripples.push({
+      x: cx + Math.cos(angle) * 18,
+      y: cy + Math.sin(angle) * 18,
+      r: 4 + i * 6,
+      alpha: 0.3 - i * 0.02,
+    })
+  }
+  for (const node of nodes) node.pulse = Math.min(1, node.pulse + 0.5)
+}
+
 function onVisibility() {
   if (document.hidden) {
     cancelAnimationFrame(frame)
@@ -217,6 +232,7 @@ onMounted(() => {
   themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
   window.addEventListener('resize', resize, { passive: true })
   document.addEventListener('visibilitychange', onVisibility)
+  window.addEventListener('bb:burst', onBurst)
   scrollY = window.scrollY
   if (!reduced) {
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -240,6 +256,7 @@ onUnmounted(() => {
   window.removeEventListener('pointerdown', onPointerDown)
   document.removeEventListener('pointerleave', onPointerLeave)
   document.removeEventListener('visibilitychange', onVisibility)
+  window.removeEventListener('bb:burst', onBurst)
 })
 </script>
 

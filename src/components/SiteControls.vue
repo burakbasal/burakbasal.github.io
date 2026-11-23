@@ -23,7 +23,7 @@ const options: Locale[] = ['tr', 'en']
       class="controls__theme"
       type="button"
       :aria-label="theme === 'dark' ? t('controls.theme') : t('controls.themeDark')"
-      @click="toggleTheme"
+      @click="toggleTheme({ x: $event.clientX, y: $event.clientY })"
     >
       <svg v-if="theme === 'dark'" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6" />

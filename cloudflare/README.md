@@ -6,6 +6,10 @@ Bunları etkinleştirmek için Cloudflare ücretsiz katmanını sitenin önüne 
 
 Bu klasördeki Worker yalnızca header eklemez: her HTML yanıtındaki statik nonce’u **istek başına
 üretilen rastgele nonce** ile değiştirir. Böylece CSP’deki nonce gerçek anlamda tek kullanımlık olur.
+Ayrıca `GPTBot`, `CCBot`, `ClaudeBot`, `Google-Extended`, `Bytespider`, `PerplexityBot` ve benzeri
+AI eğitim botlarını user-agent üzerinden **HTTP 403 ile reddeder**, `X-Robots-Tag: noai, noimageai`
+gönderir ve `no-referrer` + genişletilmiş `Permissions-Policy` + COOP/COEP/CORP başlıklarını ekler.
+Googlebot ve Bingbot bilinçli olarak engellenmez; arama sıralaması korunur.
 
 ## Kurulum
 
@@ -24,12 +28,18 @@ npx wrangler route add "burakbasal.github.io/*" burakbasal-security-headers
 5. Doğrula:
 
 ```bash
-curl -sI https://burakbasal.github.io/ | grep -Ei 'content-security|strict-transport|x-frame|x-content|permissions|cross-origin'
+curl -sI https://burakbasal.github.io/ | grep -Ei 'content-security|strict-transport|x-frame|x-content|permissions|cross-origin|x-robots|referrer'
+curl -sI -A 'GPTBot' https://burakbasal.github.io/ | head -n 1
 curl -s https://burakbasal.github.io/ | grep -o "nonce-[A-Za-z0-9_-]*" | sort -u
 ```
 
 İkinci komut **tek bir benzersiz nonce** göstermelidir: JSON-LD attribute’u ve meta CSP aynı değeri kullanır.
 `bb-portfolio-2026` görürsen statik fallback kalmış demektir. Komutu iki kez çalıştırınca nonce değişmelidir.
+
+Worker ayrıca CSP ihlallerini `/_csp-report` adresinde toplar. `Reporting-Endpoints` başlığı ve CSP içindeki
+`report-to csp` / `report-uri /_csp-report` yönergeleri tarayıcının rapor göndermesini sağlar; raporlar
+`wrangler tail` çıktısında `CSP_REPORT` olarak görünür. DNS taşındıktan sonra Cloudflare dashboard’unda
+DNSSEC’i aç ve CAA kaydı ekle (`issue "letsencrypt.org"`).
 
 ## Alternatif — Cloudflare Pages’e taşı
 

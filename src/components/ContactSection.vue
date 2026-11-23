@@ -1,6 +1,34 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { t } from '@/data/i18n'
 import AppIcon from './AppIcon.vue'
+
+const SITE_URL = 'https://burakbasal.github.io/'
+const copyStatus = ref('')
+
+async function copyLink() {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(SITE_URL)
+    } else {
+      const field = document.createElement('textarea')
+      field.value = SITE_URL
+      field.setAttribute('data-copy-allowed', '')
+      field.style.position = 'fixed'
+      field.style.opacity = '0'
+      document.body.appendChild(field)
+      field.select()
+      document.execCommand('copy')
+      field.remove()
+    }
+    copyStatus.value = t('contact.copied')
+  } catch {
+    copyStatus.value = t('contact.copyFail')
+  }
+  window.setTimeout(() => {
+    copyStatus.value = ''
+  }, 3200)
+}
 
 const channels = [
   { label: 'GitHub', handle: '@burakbasal', href: 'https://github.com/burakbasal' },
@@ -36,6 +64,14 @@ const channels = [
           </span>
           <AppIcon class="contact__arrow" name="arrow-up-right" />
         </a>
+      </div>
+
+      <div v-reveal="220" class="contact__share">
+        <button class="link-copy" type="button" data-copy-allowed @click="copyLink">
+          <AppIcon :name="copyStatus === t('contact.copied') ? 'check' : 'link'" />
+          {{ copyStatus || t('contact.copyLink') }}
+        </button>
+        <span class="sr-only" role="status" aria-live="polite">{{ copyStatus }}</span>
       </div>
 
       <p v-reveal="240" class="contact__foot">{{ t('contact.foot') }}</p>

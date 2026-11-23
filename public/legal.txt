@@ -1,0 +1,62 @@
+TERMS OF USE AND RIGHTS NOTICE — burakbasal.github.io
+Last updated: 2026-11-23
+
+1. OWNERSHIP
+All content on this site and in the repository
+github.com/burakbasal/burakbasal.github.io — including text, project
+descriptions, typography, layout, styles, scripts, screenshots and the source
+code — is copyrighted by Burak Başal (Burak Basal), (c) 2026. All rights are
+reserved. Copyright exists automatically under the Berne Convention and
+Article 8 of Turkish Law No. 5846 (FSEK); no registration is required for
+ownership.
+
+2. PERMITTED USE
+You may view the site, follow its links and contact the owner through the
+published channels. You may not copy, reproduce, republish, mirror, frame,
+scrape, systematically download, sell, adapt, or train machine-learning models
+on any part of the site or repository without prior written permission.
+
+3. PROJECT LINKS
+Projects are linked to their own public demos. Those destinations are operated
+by their respective owners and are not covered by these terms. Live-status
+badges reflect the result of an automated weekly check and are informational.
+
+4. NO WARRANTY
+The site is provided as is. The owner makes no guarantees about uptime,
+accuracy, or fitness for a particular purpose, and is not liable for damages
+arising from its use.
+
+5. CONTENT GUARD
+The site blocks selection, copying, the context menu, printing and common
+developer-tool shortcuts. These are deterrents, not a security boundary; page
+content is visible to any browser and may be fetched by automated clients.
+The legal notice in section 1, not the technical guard, establishes rights.
+
+6. AI CRAWLERS
+robots.txt disallows GPTBot, CCBot, ClaudeBot, Google-Extended,
+Applebot-Extended, Bytespider, PerplexityBot, Amazonbot and Meta-ExternalAgent.
+The Cloudflare Worker in front of the site additionally refuses those user
+agents. These are requests and edge rules for cooperative clients, not a
+guarantee that all scrapers comply.
+
+7. TAKEDOWN / INFRINGEMENT NOTICE (DMCA / FSEK)
+If you believe material here infringes your rights, send a notice containing:
+  a) your name and contact details;
+  b) identification of the copyrighted work;
+  c) the exact URL of the material on this site;
+  d) a statement of your good-faith belief that the use is unauthorised;
+  e) a statement, under penalty of perjury, that the information is accurate
+     and that you are authorised to act;
+  f) your physical or electronic signature.
+Send it through the contact channels linked on the published site, or open a
+security advisory at:
+https://github.com/burakbasal/burakbasal.github.io/security/advisories/new
+Valid notices are reviewed and, where appropriate, the material is removed.
+Counter-notices follow the same procedure.
+
+8. SECURITY REPORTS
+https://github.com/burakbasal/burakbasal.github.io/security/advisories/new
+
+9. GOVERNING LAW
+These terms are governed by Turkish law, without prejudice to mandatory rights
+available to rights holders in other jurisdictions, including the DMCA.

@@ -4,8 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#050505" />
-    <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="robots" content="index, follow, max-image-preview:large, noai, noimageai" />
+    <meta
+      http-equiv="Permissions-Policy"
+      content="accelerometer=(), autoplay=(), camera=(), display-capture=(), document-domain=(), encrypted-media=(), fullscreen=(), gamepad=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), usb=(), xr-spatial-tracking=()"
+    />
     <title>Burak Başal — Developer</title>
     <meta
       name="description"
@@ -34,6 +38,7 @@
       content="Yazılım, arayüzler, gerçek zamanlı sistemler ve tarayıcı oyunları. Burak Başal'ın seçili çalışmaları."
     />
     <meta name="twitter:image" content="https://burakbasal.github.io/og-image.png" />
+    <meta name="twitter:image:alt" content="Burak Başal — Developer" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link
       rel="preload"
@@ -59,17 +64,110 @@
     <script type="application/ld+json" nonce="bb-portfolio-2026">
       {
         "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Burak Başal",
-        "alternateName": "Burak Basal",
-        "url": "https://burakbasal.github.io/",
-        "jobTitle": "Developer",
-        "sameAs": [
-          "https://github.com/burakbasal",
-          "https://www.linkedin.com/in/burak-basal/",
-          "https://x.com/user02718281828",
-          "https://instagram.com/user02718281828",
-          "https://discord.com/users/1163182429331259574"
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://burakbasal.github.io/#person",
+            "name": "Burak Başal",
+            "alternateName": "Burak Basal",
+            "url": "https://burakbasal.github.io/",
+            "jobTitle": "Developer",
+            "description": "Developer working across software, interfaces, real-time systems and browser games.",
+            "knowsAbout": [
+              "Software engineering",
+              "Web interfaces",
+              "Browser games",
+              "Real-time systems",
+              "TypeScript",
+              "Vue.js",
+              "React",
+              "Three.js",
+              "Python",
+              "PostgreSQL"
+            ],
+            "sameAs": [
+              "https://github.com/burakbasal",
+              "https://www.linkedin.com/in/burak-basal/",
+              "https://x.com/user02718281828",
+              "https://instagram.com/user02718281828",
+              "https://discord.com/users/1163182429331259574"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://burakbasal.github.io/#website",
+            "url": "https://burakbasal.github.io/",
+            "name": "Burak Basal — Developer",
+            "inLanguage": ["tr", "en"],
+            "publisher": { "@id": "https://burakbasal.github.io/#person" }
+          },
+          {
+            "@type": "ItemList",
+            "@id": "https://burakbasal.github.io/#work",
+            "name": "Selected work",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "item": {
+                  "@type": "CreativeWork",
+                  "name": "Roamcroft",
+                  "url": "https://roamcroft.com/",
+                  "image": "https://burakbasal.github.io/images/roamcroft.webp"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "item": {
+                  "@type": "CreativeWork",
+                  "name": "satkolay",
+                  "url": "https://satkolay.com/",
+                  "image": "https://burakbasal.github.io/images/satkolay.webp"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "item": {
+                  "@type": "CreativeWork",
+                  "name": "endless-wordle",
+                  "url": "https://burakbasal.github.io/endless-wordle/",
+                  "image": "https://burakbasal.github.io/images/endless-wordle.webp"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 4,
+                "item": {
+                  "@type": "CreativeWork",
+                  "name": "wall-race",
+                  "url": "https://burakbasal.github.io/wall-race/",
+                  "image": "https://burakbasal.github.io/images/wall-race.webp"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 5,
+                "item": {
+                  "@type": "CreativeWork",
+                  "name": "rezonans",
+                  "url": "https://burakbasal.github.io/rezonans/",
+                  "image": "https://burakbasal.github.io/images/rezonans.webp"
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 6,
+                "item": {
+                  "@type": "CreativeWork",
+                  "name": "Global Bilgi · CallSim",
+                  "url": "https://gbsim.pages.dev/",
+                  "image": "https://burakbasal.github.io/images/callsim.webp"
+                }
+              }
+            ]
+          }
         ]
       }
     </script>

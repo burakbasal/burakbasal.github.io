@@ -1,0 +1,68 @@
+name: Live site audit
+
+on:
+  schedule:
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check published assets and structured data
+        run: |
+          node --input-type=module -e '
+            const base = "https://burakbasal.github.io/";
+            const paths = ["", "robots.txt", "sitemap.xml", "llms.txt", "og-image.png", ".well-known/security.txt", "favicon.svg"];
+            for (const path of paths) {
+              const res = await fetch(base + path);
+              if (!res.ok) throw new Error(`${path} -> ${res.status}`);
+              console.log(`${path || "index"} ${res.status}`);
+            }
+            const html = await (await fetch(base)).text();
+            const match = html.match(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/);
+            if (!match) throw new Error("JSON-LD missing");
+            const data = JSON.parse(match[1]);
+            const list = data["@graph"]?.find((node) => node["@type"] === "ItemList");
+            if (list?.itemListElement?.length !== 6) throw new Error("Project ItemList incomplete");
+            console.log(`JSON-LD projects: ${list.itemListElement.length}`);
+          '
+
+      - name: Run Lighthouse against the live site
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: |
+          npx --yes lighthouse@12 https://burakbasal.github.io/ \
+            --quiet \
+            --output=json \
+            --output-path=live-lighthouse.json \
+            --chrome-flags="--headless=new --no-sandbox --disable-gpu" \
+            --only-categories=performance,accessibility,best-practices,seo
+
+      - name: Enforce live score budget
+        run: |
+          node -e '
+            const r = require("./live-lighthouse.json");
+            const min = { performance: 0.95, accessibility: 1, "best-practices": 1, seo: 1 };
+            for (const [k, v] of Object.entries(min)) {
+              const score = Math.round(r.categories[k].score * 100);
+              console.log(`${k}: ${score} (min ${Math.round(v * 100)})`);
+              if (score < Math.round(v * 100)) process.exitCode = 1;
+            }
+          '
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-lighthouse
+          path: live-lighthouse.json

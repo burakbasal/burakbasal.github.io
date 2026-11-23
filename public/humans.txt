@@ -1,0 +1,20 @@
+/* TEAM */
+	Developer: Burak Başal (Burak Basal)
+	Site: https://burakbasal.github.io/
+	Repository: https://github.com/burakbasal/burakbasal.github.io
+
+/* RIGHTS */
+	Copyright (c) 2026 Burak Başal. All rights reserved.
+	No part of this site or its source may be copied, mirrored or used for
+	machine-learning training without prior written permission.
+	Terms and takedown procedure: https://burakbasal.github.io/legal.txt
+	Security reports: https://github.com/burakbasal/burakbasal.github.io/security/advisories/new
+
+/* THANKS */
+	Vite, Vue 3, TypeScript, Cloudflare Pages, GitHub Pages
+
+/* SITE */
+	Standards: HTML5, WCAG 2.1 AA, WebP
+	Components: Vue 3 single-file components, 2D canvas
+	Software: Vite, TypeScript, ESLint, Lighthouse, axe-core
+	Language: Turkish, English

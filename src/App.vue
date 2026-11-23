@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { useMediaQuery } from '@vueuse/core'
 import { t } from '@/data/i18n'
+import { useEasterEgg } from './composables/useEasterEgg'
+import { useMagneticTargets } from './composables/useMagneticTargets'
 import AtmosphereField from './components/AtmosphereField.vue'
 import ContentGuard from './components/ContentGuard.vue'
+import ScrollRail from './components/ScrollRail.vue'
 import SiteHeader from './components/SiteHeader.vue'
 import HeroSection from './components/HeroSection.vue'
 import WorkSection from './components/WorkSection.vue'
@@ -13,6 +17,12 @@ import SiteFooter from './components/SiteFooter.vue'
 
 const active = ref('')
 let observer: IntersectionObserver | null = null
+
+const finePointer = useMediaQuery('(hover: hover) and (pointer: fine)')
+const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
+const effects = computed(() => finePointer.value && !reducedMotion.value)
+useMagneticTargets(effects)
+useEasterEgg(() => !reducedMotion.value)
 
 onMounted(() => {
   if (!('IntersectionObserver' in window)) return
@@ -36,6 +46,7 @@ onUnmounted(() => observer?.disconnect())
   <AtmosphereField />
 
   <SiteHeader :active="active" />
+  <ScrollRail :active="active" />
 
   <main id="main">
     <HeroSection />

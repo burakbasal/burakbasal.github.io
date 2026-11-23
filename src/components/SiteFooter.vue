@@ -19,6 +19,7 @@ function toTop() {
         <a href="https://x.com/user02718281828" target="_blank" rel="noopener noreferrer">X</a>
         <a href="https://instagram.com/user02718281828" target="_blank" rel="noopener noreferrer">Instagram</a>
         <a href="https://discord.com/users/1163182429331259574" target="_blank" rel="noopener noreferrer">Discord</a>
+        <a href="/legal.txt">{{ t('footer.legal') }}</a>
       </nav>
       <span class="site-footer__status" :title="linkStatus.checkedAt">
         {{ t('footer.status') }} {{ linkStatus.online }}/{{ linkStatus.total }}

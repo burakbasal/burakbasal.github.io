@@ -18,6 +18,18 @@ watch(
   { immediate: true },
 )
 
-export function toggleTheme() {
+/** A pointer-origin monochrome wipe; skipped automatically for reduced motion. */
+export function toggleTheme(origin?: { x: number; y: number }) {
+  const root = document.documentElement
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (!reduced) {
+    root.style.setProperty('--iris-x', `${origin?.x ?? window.innerWidth / 2}px`)
+    root.style.setProperty('--iris-y', `${origin?.y ?? window.innerHeight / 2}px`)
+    root.classList.remove('theme-iris')
+    // Force a restart when the toggle is clicked twice in quick succession.
+    void root.offsetWidth
+    root.classList.add('theme-iris')
+    window.setTimeout(() => root.classList.remove('theme-iris'), 560)
+  }
   theme.value = theme.value === 'dark' ? 'light' : 'dark'
 }

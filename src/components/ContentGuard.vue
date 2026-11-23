@@ -11,6 +11,7 @@ let blurTimer = 0
 let locked = false
 let stickyUntil = 0
 let keeper: MutationObserver | null = null
+let clearing = false
 
 function warn(event?: Event, kind: 'copy' | 'shortcut' | 'devtools' = 'copy') {
   event?.preventDefault()
@@ -22,6 +23,26 @@ function warn(event?: Event, kind: 'copy' | 'shortcut' | 'devtools' = 'copy') {
   }, 3600)
 }
 
+/** Explicitly published actions (the copy-link button) stay usable. */
+function guarded(event: Event, kind: 'copy' | 'shortcut' = 'copy') {
+  const target = event.target as Element | null
+  if (target?.closest?.('[data-copy-allowed]')) return
+  warn(event, kind)
+}
+
+/** Collapse any selection almost as soon as it appears. */
+function onSelectionChange() {
+  if (clearing) return
+  const selection = window.getSelection()
+  if (!selection || selection.isCollapsed) return
+  const anchor = selection.anchorNode instanceof Element ? selection.anchorNode : selection.anchorNode?.parentElement
+  if (anchor?.closest?.('[data-copy-allowed]')) return
+  clearing = true
+  selection.removeAllRanges()
+  noteAttempt('copy')
+  clearing = false
+}
+
 function onKeydown(event: Event) {
   const keyEvent = event as KeyboardEvent
   const mod = keyEvent.ctrlKey || keyEvent.metaKey
@@ -29,18 +50,19 @@ function onKeydown(event: Event) {
 
   if (keyEvent.key === 'F12') return warn(event, 'shortcut')
   if (!mod && !keyEvent.altKey) return
-  if (['a', 'c', 'x', 'u', 's', 'p'].includes(key)) return warn(event, 'shortcut')
-  if ((keyEvent.shiftKey || keyEvent.altKey) && ['i', 'j', 'c', 'k'].includes(key)) warn(event, 'shortcut')
+  if (['a', 'c', 'x', 'u', 's', 'p', 'f'].includes(key)) return warn(event, 'shortcut')
+  if ((keyEvent.shiftKey || keyEvent.altKey) && ['i', 'j', 'c', 'k', 'o'].includes(key)) warn(event, 'shortcut')
 }
 
 function docked() {
   const w = window.outerWidth - window.innerWidth
   const h = window.outerHeight - window.innerHeight
-  return window.innerWidth > 700 && (w > 160 || h > 160)
+  const chrome = (window as Window & { chrome?: { devtools?: unknown } }).chrome
+  return window.innerWidth > 700 && (w > 100 || h > 100 || (chrome != null && 'devtools' in chrome))
 }
 
 function lock(sticky = false) {
-  if (sticky) stickyUntil = Date.now() + 8000
+  if (sticky) stickyUntil = Date.now() + 20000
   if (locked) return
   locked = true
   noteAttempt('devtools')
@@ -61,6 +83,7 @@ function lock(sticky = false) {
   document.body.appendChild(layer)
 
   // A plain-DOM layer cannot be removed from the console without coming back.
+  keeper?.disconnect()
   keeper = new MutationObserver(() => {
     if (!document.body.contains(layer)) document.body.appendChild(layer)
     if (!document.documentElement.classList.contains('devtools-open')) {
@@ -87,7 +110,7 @@ function onBlur() {
   if (document.visibilityState !== 'visible') return
   blurTimer = window.setTimeout(() => {
     if (document.visibilityState === 'visible' && !document.hasFocus()) lock(true)
-  }, 1000)
+  }, 900)
 }
 
 function onFocus() {
@@ -113,11 +136,14 @@ function check() {
 type Handler = (event: Event) => void
 
 const targets: Array<[EventTarget, string, Handler]> = [
-  [document, 'selectstart', warn],
-  [document, 'copy', warn],
-  [document, 'cut', warn],
+  [document, 'selectstart', guarded],
+  [document, 'selectionchange', onSelectionChange],
+  [document, 'copy', guarded],
+  [document, 'cut', guarded],
   [document, 'contextmenu', warn],
-  [document, 'dragstart', warn],
+  [document, 'dragstart', guarded],
+  [document, 'dragover', guarded],
+  [document, 'drop', guarded],
   [document, 'beforeprint', warn],
   [window, 'keydown', onKeydown],
   [window, 'blur', onBlur],
@@ -128,6 +154,7 @@ const targets: Array<[EventTarget, string, Handler]> = [
 
 onMounted(() => {
   targets.forEach(([target, type, handler]) => target.addEventListener(type, handler, { capture: true, passive: false }))
+  silenceConsole()
   watchdog = window.setInterval(check, 250)
 })
 
