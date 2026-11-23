@@ -1,0 +1,11 @@
+BB-NOAI-2026-11-24 — YASAL UYARI / LEGAL NOTICE
+
+Bu adres, otomatik veri toplayıcıları ve yapay zekâ eğitim botlarını tespit etmek için konulmuş bir tuzaktır. Buraya ulaşan bir istemci, robots.txt talimatlarını görmezden gelmiş veya gizli bağlantıyı takip etmiş demektir.
+
+This address is a honeypot for automated scrapers and AI training bots. Reaching it means the client ignored robots.txt or followed a hidden link.
+
+Bu sitenin içeriği telif hakkıyla korunmaktadır ve yapay zekâ eğitimi, veri madenciliği veya yeniden yayınlama için kullanılamaz. İhlaller FSEK ve DMCA kapsamında bildirilebilir.
+
+All content on this site is copyrighted and may not be used for AI training, data mining or republication. Violations may be reported under FSEK and the DMCA.
+
+https://burakbasal.github.io/legal.txt

@@ -1982,6 +1982,29 @@ html.devtools-open .site-footer {
   }
 }
 
+/* Hidden scraper canary / honeypot: invisible to users, screen readers and
+   keyboard navigation, but present in the served HTML for bots to follow. */
+.bot-canary {
+  position: absolute;
+  top: 0;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.bot-gate {
+  margin: 24vh auto;
+  padding: 0 24px;
+  max-width: 640px;
+  color: var(--mute);
+  font-size: 13px;
+  line-height: 1.7;
+  text-align: center;
+}
+
 /* Printing is blocked together with the rest of the content guard. */
 @media print {
   html,

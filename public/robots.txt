@@ -1,12 +1,47 @@
-# Good crawlers are welcome; the sitemap is the canonical index.
+# Default-deny: only explicitly named search and link-preview crawlers may
+# fetch this site. Everything else — including unnamed AI scrapers — is refused.
+# This is a request, not access control; the Cloudflare Worker enforces the
+# known AI user agents with HTTP 403 when DNS is moved to Cloudflare.
+
+# Search engines
 User-agent: Googlebot
 Allow: /
+Disallow: /noai-honeypot
+
+User-agent: Googlebot-Image
+Allow: /
+Disallow: /noai-honeypot
 
 User-agent: Bingbot
 Allow: /
+Disallow: /noai-honeypot
 
-# AI training / generative answer crawlers are disallowed. This is a request,
-# not access control; the Cloudflare Worker also blocks these user agents.
+# Link preview bots
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Slackbot-LinkExpanding
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# Explicitly refused AI training / generative answer crawlers
 User-agent: GPTBot
 Disallow: /
 
@@ -34,7 +69,9 @@ Disallow: /
 User-agent: Meta-ExternalAgent
 Disallow: /
 
+# Honeypot path must never be indexed.
 User-agent: *
-Allow: /
+Disallow: /noai-honeypot
+Disallow: /
 
 Sitemap: https://burakbasal.github.io/sitemap.xml

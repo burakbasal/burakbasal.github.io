@@ -9,7 +9,7 @@ const STATIC_NONCE = 'bb-portfolio-2026'
 
 // Edge-level refusal for generative-AI / training crawlers. Googlebot and
 // Bingbot are deliberately not listed: search ranking must stay intact.
-const BLOCKED_AI_BOTS = /GPTBot|CCBot|ClaudeBot|Google-Extended|Applebot-Extended|Bytespider|PerplexityBot|Amazonbot|Meta-ExternalAgent|ChatGPT-User|Omgilibot/i
+const BLOCKED_AI_BOTS = /GPTBot|CCBot|ClaudeBot|Google-Extended|Applebot-Extended|Bytespider|PerplexityBot|Amazonbot|Meta-ExternalAgent|ChatGPT-User|Omgilibot|Omgili|Webzio-Extended|AI2Bot|YouBot|Kangaroo Bot|PanguBot|Timpibot|ImagesiftBot|Diffbot|Crawlspace|DuckAssistBot|VelenPublicWebCrawler/i
 
 const CSP = [
   "default-src 'self'",
@@ -60,7 +60,22 @@ export default {
     const url = new URL(request.url)
     const userAgent = request.headers.get('user-agent') || ''
 
+    // A hidden link in the served HTML points here. Following it proves the
+    // client ignored robots.txt or scraped the DOM; log it for enforcement.
+    if (url.pathname.startsWith('/noai-honeypot')) {
+      console.log('HONEYPOT_HIT', JSON.stringify({ path: url.pathname, userAgent, referer: request.headers.get('referer') || '' }))
+      return new Response('Forbidden', {
+        status: 403,
+        headers: {
+          'Cache-Control': 'no-store',
+          'Content-Type': 'text/plain; charset=utf-8',
+          'X-Robots-Tag': 'none, noai, noimageai',
+        },
+      })
+    }
+
     if (BLOCKED_AI_BOTS.test(userAgent)) {
+      console.log('AI_BOT_BLOCKED', JSON.stringify({ path: url.pathname, userAgent }))
       return new Response('Forbidden', {
         status: 403,
         headers: {

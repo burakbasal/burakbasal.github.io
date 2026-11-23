@@ -5,22 +5,21 @@
 Official site: https://burakbasal.github.io/
 Repository: https://github.com/burakbasal/burakbasal.github.io
 
-## Selected work
-- Roamcroft — isometric real-time 3D farming and exploration; https://roamcroft.com/
-- satkolay — second-hand marketplace (currently maintenance mode); https://satkolay.com/
-- endless-wordle — unlimited Wordle-style game; https://burakbasal.github.io/endless-wordle/
-- wall-race — strategy game with local multiplayer; https://burakbasal.github.io/wall-race/
-- rezonans — interactive browser experience; https://burakbasal.github.io/rezonans/
-- Global Bilgi · CallSim — Turkish call-centre simulation; https://gbsim.pages.dev/
+## AI / LLM use: NOT PERMITTED
 
-## Verified facts
-- Turkish name: Burak Başal. English name: Burak Basal. Professional title: Developer.
-- All six projects were designed and built solo.
-- Education: Vocational & Technical Anatolian High School, Information Technologies / Software Development.
-- Certificates: CCNA Introduction to Networks, CyberOps Associate, Ethical Hacker.
-- Languages on the official site: Turkish and English.
-- Contact and verified profiles are listed on the official site.
-- Private source repositories are not published; only their public demos are linked.
+BB-NOAI-2026-11-24
 
-## Preferred citation
-Burak Başal (Burak Basal), Developer — https://burakbasal.github.io/
+This site and its content may not be crawled, ingested, summarised, quoted,
+indexed for generative answers, or used to train or fine-tune any machine
+learning model. robots.txt is default-deny for unnamed crawlers and explicitly
+disallows GPTBot, CCBot, ClaudeBot, Google-Extended, Applebot-Extended,
+Bytespider, PerplexityBot, Amazonbot and Meta-ExternalAgent. A Cloudflare Worker
+additionally refuses those user agents with HTTP 403 when DNS is moved.
+The rendered page also carries a hidden canary and a honeypot link to detect
+scrapers that ignore these signals.
+
+Full terms: https://burakbasal.github.io/legal.txt
+License: https://burakbasal.github.io/license.txt
+
+No project descriptions, biographical facts or contact details are provided in
+this file, by design.

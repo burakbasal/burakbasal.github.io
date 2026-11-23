@@ -58,4 +58,11 @@ onUnmounted(() => observer?.disconnect())
 
   <SiteFooter />
   <ContentGuard />
+
+  <!-- Client-rendered canary: invisible to users and assistive technology, but
+       present in the live DOM for scrapers that execute JavaScript. -->
+  <div class="bot-canary bot-canary--client" aria-hidden="true" data-canary="BB-NOAI-2026-11-24" data-ai-use="denied">
+    BB-NOAI-2026-11-24 — NOAI / NOIMAGEAI — This rendered content may not be used for AI training.
+    <a href="/noai-honeypot.txt" rel="nofollow noindex" tabindex="-1">noai-canary-dom</a>
+  </div>
 </template>

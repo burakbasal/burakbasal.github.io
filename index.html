@@ -7,6 +7,15 @@
     <meta name="referrer" content="no-referrer" />
     <meta name="robots" content="index, follow, max-image-preview:large, noai, noimageai" />
     <meta
+      name="copyright"
+      content="Copyright 2026 Burak Basal. All rights reserved. AI training and automated scraping are prohibited."
+    />
+    <meta
+      name="rights"
+      content="No AI training, data mining, generative indexing or automated republication is permitted."
+    />
+    <link rel="license" href="/license.txt" />
+    <meta
       http-equiv="Permissions-Policy"
       content="accelerometer=(), autoplay=(), camera=(), display-capture=(), document-domain=(), encrypted-media=(), fullscreen=(), gamepad=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), usb=(), xr-spatial-tracking=()"
     />
@@ -174,6 +183,12 @@
   </head>
   <body>
     <div id="app"></div>
+    <!-- Hidden canary + honeypot for scrapers. Not for users or search engines. -->
+    <div class="bot-canary" aria-hidden="true" data-canary="BB-NOAI-2026-11-24">
+      BB-NOAI-2026-11-24 — Bu sitenin içeriği yapay zekâ eğitimi için kullanılamaz.
+      This site may not be used for AI training or automated scraping.
+      <a href="/noai-honeypot.txt" rel="nofollow noindex" tabindex="-1">noai-canary</a>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

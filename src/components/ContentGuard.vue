@@ -11,6 +11,8 @@ let blurTimer = 0
 let locked = false
 let stickyUntil = 0
 let focusSuspectedUntil = 0
+let baselineW = 0
+let baselineH = 0
 let keeper: MutationObserver | null = null
 let clearing = false
 
@@ -55,15 +57,20 @@ function onKeydown(event: Event) {
   if ((keyEvent.shiftKey || keyEvent.altKey) && ['i', 'j', 'c', 'k', 'o'].includes(key)) warn(event, 'shortcut')
 }
 
-/**
- * Window geometry alone is unreliable: the Windows taskbar, browser chrome and
- * display scaling can all produce a >100 px gap without DevTools being open.
- * The conservative 160 px threshold matches a docked console (~300 px).
- */
-function docked() {
-  const w = window.outerWidth - window.innerWidth
-  const h = window.outerHeight - window.innerHeight
-  return window.innerWidth > 700 && (w > 160 || h > 160)
+function chromeSize() {
+  return { w: window.outerWidth - window.innerWidth, h: window.outerHeight - window.innerHeight }
+}
+
+/** A docked console adds ~300 px of browser chrome relative to page load. */
+function chromeChanged() {
+  const size = chromeSize()
+  return Math.abs(size.w - baselineW) > 120 || Math.abs(size.h - baselineH) > 120
+}
+
+/** Fallback for a window that already had a large chrome gap on first paint. */
+function wideChrome() {
+  const size = chromeSize()
+  return window.innerWidth > 700 && (size.w > 160 || size.h > 160)
 }
 
 function lock(sticky = false) {
@@ -131,7 +138,8 @@ function onFocus() {
 function check() {
   if (Date.now() < stickyUntil) return
 
-  const geometrySignal = docked()
+  const changed = chromeChanged()
+  const wide = wideChrome()
   const focusSignal = Date.now() < focusSuspectedUntil
 
   // No-op when no debugger is attached; an attached debugger pauses here long
@@ -141,11 +149,11 @@ function check() {
   debugger
   const timingSignal = performance.now() - started > 60
 
-  // Two independent signals are required. A docked console gives geometry +
-  // timing; an undocked console gives focus + timing; a plain window-resize or
-  // alt-tab gives only one and is ignored.
-  const signals = Number(geometrySignal) + Number(timingSignal) + Number(focusSignal)
-  if (signals >= 2) return lock(true)
+  // A change relative to the page-load baseline is decisive: the taskbar and
+  // display scaling are already in the baseline, so only a real docked console
+  // moves it. Otherwise require debugger timing plus a second corroborating
+  // signal, which catches an undocked console without punishing an alt-tab.
+  if (changed || (timingSignal && (wide || focusSignal))) return lock(true)
 
   silenceConsole()
   unlock()
@@ -171,6 +179,9 @@ const targets: Array<[EventTarget, string, Handler]> = [
 ]
 
 onMounted(() => {
+  const initial = chromeSize()
+  baselineW = initial.w
+  baselineH = initial.h
   targets.forEach(([target, type, handler]) => target.addEventListener(type, handler, { capture: true, passive: false }))
   silenceConsole()
   watchdog = window.setInterval(check, 250)

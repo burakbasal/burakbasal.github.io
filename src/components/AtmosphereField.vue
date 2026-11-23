@@ -39,7 +39,7 @@ function resize() {
   canvas.value.style.height = `${height}px`
   ctx?.setTransform(dpr, 0, 0, dpr, 0, 0)
 
-  const count = Math.min(40, Math.max(14, Math.round(width / 34)))
+  const count = Math.min(28, Math.max(12, Math.round(width / 44)))
   nodes = Array.from({ length: count }, () => ({
     x: Math.random() * width,
     y: Math.random() * height,
@@ -140,7 +140,7 @@ function draw() {
 
 function loop(time: number) {
   frame = requestAnimationFrame(loop)
-  if (time - last < 30) return
+  if (time - last < 50) return
   last = time
   for (const node of nodes) stepNode(node)
   scrollImpulse *= 0.86

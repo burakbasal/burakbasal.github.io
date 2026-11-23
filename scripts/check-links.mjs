@@ -1,5 +1,9 @@
 import fs from 'node:fs'
 
+// The CallSim demo runs against a local origin and may be temporarily offline.
+// It stays linked in the portfolio, but its downtime must not fail CI.
+const optionalOffline = new Set(['https://gbsim.pages.dev/'])
+
 const urls = [
   'https://roamcroft.com/',
   'https://satkolay.com/',
@@ -28,5 +32,7 @@ const payload = {
 }
 
 fs.writeFileSync('src/data/link-status.json', `${JSON.stringify(payload, null, 2)}\n`)
+const offline = results.filter((result) => !result.ok)
 console.log(`Live links: ${payload.online}/${payload.total}`)
-if (payload.online !== payload.total) process.exitCode = 1
+for (const result of offline) console.log(`${optionalOffline.has(result.url) ? 'Optional' : 'Required'} offline: ${result.url} -> ${result.status}`)
+if (offline.some((result) => !optionalOffline.has(result.url))) process.exitCode = 1

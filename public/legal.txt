@@ -32,12 +32,22 @@ developer-tool shortcuts. These are deterrents, not a security boundary; page
 content is visible to any browser and may be fetched by automated clients.
 The legal notice in section 1, not the technical guard, establishes rights.
 
-6. AI CRAWLERS
-robots.txt disallows GPTBot, CCBot, ClaudeBot, Google-Extended,
-Applebot-Extended, Bytespider, PerplexityBot, Amazonbot and Meta-ExternalAgent.
-The Cloudflare Worker in front of the site additionally refuses those user
-agents. These are requests and edge rules for cooperative clients, not a
-guarantee that all scrapers comply.
+6. AI CRAWLERS AND AUTOMATED SCRAPING
+AI training, generative-answer indexing, data mining and automated republication
+of this site are expressly NOT PERMITTED. robots.txt is default-deny: only
+named search engines and link-preview bots are allowed; GPTBot, CCBot,
+ClaudeBot, Google-Extended, Applebot-Extended, Bytespider, PerplexityBot,
+Amazonbot and Meta-ExternalAgent are explicitly refused. The meta and
+X-Robots-Tag directives carry noai/noimageai. A client-side gate hides the
+rendered page from those same user agents, and a Cloudflare Worker refuses them
+with HTTP 403 once DNS is moved. These are layered deterrents and declarations
+of rights, not an absolute guarantee against non-cooperative scrapers.
+
+A hidden canary token (BB-NOAI-2026-11-24) and a hidden honeypot link
+(/noai-honeypot.txt) are present in the served HTML. They are invisible to users,
+screen readers and keyboard navigation. Any client that follows the honeypot or
+reproduces the canary elsewhere is evidence of unauthorised scraping and may be
+reported under FSEK / DMCA.
 
 7. TAKEDOWN / INFRINGEMENT NOTICE (DMCA / FSEK)
 If you believe material here infringes your rights, send a notice containing:

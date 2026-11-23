@@ -12,10 +12,11 @@ the remaining items need an account or genuine third-party links.
 - Open Graph and Twitter cards with a 1200x630 `og-image.png` and image alt text.
 - JSON-LD `@graph`: `Person` (both names, title, verified profiles, `knowsAbout`), `WebSite` and
   `ItemList` with all six real project URLs and screenshots.
-- `llms.txt` with verified facts and a preferred citation. `robots.txt` allows Googlebot and Bingbot
-  and points to the XML sitemap, but disallows GPTBot, CCBot, ClaudeBot, Google-Extended and other AI
-  training crawlers; `noai`/`noimageai` signals are also present in meta and in the Worker's
-  `X-Robots-Tag`. Search ranking stays intact while generative-AI training requests are refused.
+- `robots.txt` is default-deny: only named search engines and link-preview bots may crawl; GPTBot,
+  CCBot, ClaudeBot, Google-Extended and other AI crawlers are refused. `noai`/`noimageai` are declared
+  in meta and in the Worker's `X-Robots-Tag`. `llms.txt` now contains an explicit refusal instead of
+  data, and a hidden `BB-NOAI-2026-11-24` canary plus `/noai-honeypot.txt` detect scrapers that ignore the
+  signals. Googlebot/Bingbot remain allowed, so search ranking is unaffected.
 - Legal layer: `LICENSE` (all rights reserved), `humans.txt`, `legal.txt` (ToS + DMCA/FSEK notice),
   © notice and Legal link in the footer.
 - `sitemap.xml`, `robots.txt`, `404.html`, `.well-known/security.txt` and `favicon.svg`.

@@ -1,7 +1,7 @@
 {
-  "checkedAt": "2026-11-22T22:41:51.573Z",
+  "checkedAt": "2026-11-23T22:20:31.670Z",
   "total": 6,
-  "online": 6,
+  "online": 5,
   "results": [
     {
       "url": "https://roamcroft.com/",
@@ -35,8 +35,8 @@
     },
     {
       "url": "https://gbsim.pages.dev/",
-      "status": 200,
-      "ok": true,
+      "status": 503,
+      "ok": false,
       "final": "https://gbsim.pages.dev/"
     }
   ]
